@@ -1,0 +1,59 @@
+@using Naif.Blog.Models
+@using Naif.Blog.Services
+
+@inherits MenuComponentBase
+
+@inject IBlogManager _blogManager
+
+
+<MenuBar Menu="@_menu"></MenuBar>
+    
+@code {
+    private Menu _menu;
+    
+    [Parameter]
+    public Blog Blog { get; set; }
+    
+    [Parameter]
+    public string CssClass { get; set; }
+    
+    [Parameter]
+    public bool IncludeParent { get; set; }
+
+    [Parameter]
+    public string PostId { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _menu = new Menu
+        {
+            CssClass = CssClass,
+            IsActiveCssClass = "active",
+            Items = new List<MenuItem>()
+        };
+
+        if (IncludeParent && !string.IsNullOrEmpty(PostId))
+        {
+            var currentPost = _blogManager.GetPost(Blog.Id, p => p.PostType != PostType.Post && p.PostId == PostId);
+
+            if (currentPost != null && !string.IsNullOrEmpty(currentPost.ParentPostId))
+            {
+                var parentPost = _blogManager.GetPost(Blog.Id, p => p.PostType != PostType.Post && p.PostId == currentPost.ParentPostId);
+                if (parentPost != null)
+                {
+                    var menuItem = CreateMenuItem(parentPost);
+                    menuItem.Text = "Return to " + menuItem.Text;
+                    _menu.Items.Add(menuItem);
+                }
+            }
+        }
+
+        await Task.Run(() =>
+        {
+            foreach(var post in _blogManager.GetPosts(Blog.Id, p => p.PostType != PostType.Post && p.ParentPostId == PostId))
+            {
+                _menu.Items.Add(CreateMenuItem(post));
+            }
+        });
+    }
+}

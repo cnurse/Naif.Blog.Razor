@@ -1,0 +1,53 @@
+@using Naif.Blog.Models
+@using Naif.Blog.Services
+
+@inherits MenuComponentBase
+
+@inject IBlogManager _blogManager
+
+<section class="recentArticles">
+    <h2>Recent Articles</h2>
+    <MenuBar Menu="@_menu"></MenuBar>
+</section>
+
+@code {
+
+    private Menu _menu;
+    
+    [Parameter]
+    public Blog Blog { get; set; }
+
+    [Parameter]
+    public int Count { get; set; }
+
+    [Parameter]
+    public string CssClass { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _menu = new Menu
+        {
+            CssClass = CssClass,
+            IsActiveCssClass = "active",
+            Items = new List<MenuItem>()
+        };
+
+
+        await Task.Run(() =>
+        {
+            var recentPosts = _blogManager.GetRecentPosts(Blog.Id, Count);
+            foreach (var post in recentPosts)
+            {
+                var menuItem = CreateMenuItem(post);
+                if (post.LastModified > post.PubDate.AddDays(1))
+                {
+                    menuItem.Text += "<small><em> -  updated</em></small>";
+                }
+
+
+                _menu.Items.Add(menuItem);
+            }
+        });
+
+    }
+}

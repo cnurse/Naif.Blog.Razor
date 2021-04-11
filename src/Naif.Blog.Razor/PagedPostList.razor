@@ -1,0 +1,84 @@
+@using Naif.Blog.Models
+@using Naif.Core.Collections
+
+@{
+    foreach (var post in Posts)
+    {
+        <section>
+            <Excerpt Post="@post"></Excerpt>
+        </section>
+    }
+}
+
+<Pager Pages="@_pages"></Pager>
+
+@code {
+
+    private Models.Pager _pages;
+
+    private IPagedList<Post> _posts;
+
+    [Parameter]
+    public string Filter { get; set; }
+    
+    [Parameter]
+    public int PageCount { get; set; }
+    
+    [Parameter]
+    public int PageIndex { get; set; }
+
+    [Parameter]
+    public IEnumerable<Post> Posts { get; set; }
+
+    [Parameter]
+    public Dictionary<string, string> RouteValues { get; set; }
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _posts = Posts.InPagesOf(PageCount).GetPage(PageIndex);
+            
+        string action = RouteValues["action"];
+        string controller = RouteValues["controller"];
+
+        string actionParameter = (action == "Index") 
+                                    ? String.Empty
+                                    : (action == "ViewCategory") 
+                                        ? "category"
+                                        : "tag";
+        string actionValue = (action == "Index")
+                                    ? String.Empty
+                                    : RouteValues[actionParameter] as string;
+
+        await Task.Run(() =>
+        {
+            var routeValues = new Dictionary<string, object>
+            {
+                [actionParameter] = actionValue
+            };
+            if (!string.IsNullOrEmpty(Filter))
+            {
+                routeValues["filter"] = Filter;
+            }
+            routeValues["pageIndex"] = _posts.PageIndex;
+
+            _pages = new Models.Pager
+            {
+                Action = action,
+                Controller = controller,
+                CssClass = "pagination",
+                Filter = Filter,
+                HasNextPage = _posts.HasNextPage,
+                HasPreviousPage = _posts.HasPreviousPage,
+                NextCssClass = "right",
+                NextText = "Next",
+                PageCount = _posts.PageCount,
+                PageIndex = _posts.PageIndex,
+                PreviousCssClass = "left",
+                PreviousText = "Previous",
+                RouteValues = routeValues
+            };
+        });
+
+    }
+}

@@ -1,0 +1,58 @@
+<footer>
+    <ul class="@Pages.CssClass">
+        @{
+            if (Pages.HasPreviousPage)
+            {
+                <li class="page-item @Pages.PreviousCssClass">
+                    @linkFragment(Pages.PreviousText)
+                </li>
+            }
+            for (int i = 1; i < Pages.PageCount + 1; i++)
+            {
+                if (i  == Pages.PageIndex + 1)
+                {
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">@i.ToString()</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        @linkFragment(i.ToString())
+                    </li>
+                }
+            }
+            if (Pages.HasNextPage)
+            {
+                <li class="page-item @Pages.NextCssClass">
+                    @linkFragment(Pages.NextText)
+                </li>
+            }
+        }
+    </ul>
+</footer>
+
+@code {
+    
+    [Parameter]
+    public Models.Pager Pages { get; set; }
+
+    private RenderFragment<string> linkFragment;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        linkFragment = (text) =>
+        {
+            var url = $"/{Pages.Controller}/{Pages.Action}";
+            bool isFirstItem = true;
+            foreach (var routeValue in Pages.RouteValues)
+            {
+                url = (isFirstItem) ? "?" : "&";
+                url += $"{routeValue.Key}={routeValue.Value}";
+                isFirstItem = false;
+            }
+
+            return @<a class="page-link" href="@url">@text</a>;
+        };
+    }
+}

@@ -1,0 +1,11 @@
+@using Naif.Blog.Models
+
+<section>
+    <h2>Disclaimer</h2>
+    <p>@((MarkupString)Blog.Disclaimer)</p>
+</section>
+
+@code {
+    [Parameter]
+    public Blog Blog { get; set; }
+}

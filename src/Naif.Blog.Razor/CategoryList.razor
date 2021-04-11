@@ -1,0 +1,49 @@
+@using Naif.Blog.Models
+@using Naif.Blog.Services
+
+@inherits Naif.Blog.Razor.MenuComponentBase
+
+@inject IBlogManager _blogManager
+
+<section class="categoryList">
+    <h2>Categories</h2>
+    <MenuBar Menu="@_menu"></MenuBar>
+</section>
+
+@code {
+    private Menu _menu;
+    
+    [Parameter]
+    public Blog Blog { get; set; }
+
+    [Parameter]
+    public int Count { get; set; }
+
+    [Parameter]
+    public string CssClass { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _menu = new Menu
+        {
+            CssClass = CssClass,
+            IsActiveCssClass = "active",
+            Items = new List<MenuItem>()
+        };
+			
+        await Task.Run(() =>
+        {
+            var categories = _blogManager.GetCategories(Blog.Id, Count);
+            foreach (var category in categories)
+            {
+                var menuItem = new MenuItem()
+                {
+                    IsActive = false,
+                    Link = $"/category/{category.Key}",
+                    Text = $"{category.Key} - ({category.Value})"
+                };
+                _menu.Items.Add(menuItem);
+            }
+        });
+    }
+}

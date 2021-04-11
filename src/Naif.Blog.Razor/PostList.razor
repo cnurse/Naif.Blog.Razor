@@ -1,0 +1,16 @@
+@using Naif.Blog.Models
+
+@{
+	foreach (var post in Posts)
+	{
+		<section>
+			<Excerpt Post="@post"></Excerpt>
+		</section>
+	}
+}
+
+@code {
+    
+	[Parameter]
+	public IEnumerable<Post> Posts { get; set; }
+}

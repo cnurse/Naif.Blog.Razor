@@ -1,0 +1,19 @@
+@using Naif.Blog.Models
+
+<footer class="container">
+    <hr />
+
+    <p>@((MarkupString)_copyright)</p>
+</footer>
+
+@code {
+    private string _copyright;
+    
+    [Parameter]
+    public Blog Blog { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _copyright = $"&copy; {DateTime.Now.Year} - {Blog.Title}";
+    }
+}

@@ -1,0 +1,30 @@
+@using Naif.Blog.Models
+
+
+@{
+    var link = $"/post/{Post.Slug}";
+}
+
+<article class="excerpt">
+    <header>
+        <h3><a href="@link">@Post.Title</a></h3>
+    </header>
+    <section>
+        <p>@((MarkupString)Post.Excerpt)</p>
+    </section>
+    <div class="info">
+        <div class="date">
+            <span class="month">@Post.PubDate.ToString("MMM")</span>
+            <span class="day">@Post.PubDate.Day</span>
+            <span class="year">@Post.PubDate.Year</span>
+        </div>
+        <div style="clear:both"></div>
+    </div>
+</article>
+<hr />
+
+@code {
+   
+    [Parameter]
+    public Post Post { get; set; }
+}

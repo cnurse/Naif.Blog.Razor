@@ -1,0 +1,40 @@
+@using Naif.Blog.Models
+<article class="post">
+    <header>
+        <div>
+            <h2>@Post.Title</h2>
+        </div>
+        <div>
+            Category:
+            @foreach (var category in Post.Categories)
+            {
+                <span><a asp-controller="Post" asp-action="ViewCategory" asp-route-category="@category">@category</a></span>
+            }
+        </div>
+        <div>
+            Tags:
+            @foreach (var tag in Post.Tags)
+            {
+                <span><a asp-controller="Post" asp-action="ViewTag" asp-route-tag="@tag">@tag</a></span>
+            }
+        </div>
+        <div>Last Modified: @Post.LastModified.ToString("MMM d yyyy")</div>
+    </header>
+    <div class="info">
+        <div class="date">
+            <span class="month">@Post.PubDate.ToString("MMM")</span>
+            <span class="day">@Post.PubDate.Day</span>
+            <span class="year">@Post.PubDate.Year</span>
+        </div>
+        <div style="clear:both"></div>
+    </div>
+    <section>
+        @((MarkupString)Post.Content)
+    </section>
+</article>
+
+@code {
+       
+    [Parameter]
+    public Post Post { get; set; }
+}
