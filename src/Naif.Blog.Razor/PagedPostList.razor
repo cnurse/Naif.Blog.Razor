@@ -52,8 +52,8 @@
     {
         _posts = Posts.InPagesOf(PageCount).GetPage(PageIndex);
             
-        string action = RouteValues["action"];
-        string controller = RouteValues["controller"];
+        string action = RouteValues["action"] as string;
+        string controller = RouteValues["controller"] as string;
 
         string actionParameter = (action == "Index") 
                                     ? String.Empty
