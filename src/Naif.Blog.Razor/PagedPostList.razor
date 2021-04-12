@@ -66,16 +66,18 @@
 
         await Task.Run(() =>
         {
-            var routeValues = new Dictionary<string, object>
+            var routeValues = new Dictionary<string, object>();
+
+            if (!string.IsNullOrEmpty(actionParameter))
             {
-                [actionParameter] = actionValue
-            };
+                routeValues[actionParameter] = actionValue;
+            }
+            
             if (!string.IsNullOrEmpty(Filter))
             {
                 routeValues["filter"] = Filter;
             }
-            routeValues["pageIndex"] = _posts.PageIndex;
-
+            
             _pages = new Models.Pager
             {
                 Action = action,

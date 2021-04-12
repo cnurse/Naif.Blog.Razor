@@ -3,10 +3,13 @@
         @{
             if (Pages.HasPreviousPage)
             {
+                Pages.RouteValues["pageIndex"] = Pages.PageIndex - 1;
                 <li class="page-item @Pages.PreviousCssClass">
                     @linkFragment(Pages.PreviousText)
                 </li>
             }
+
+
             for (int i = 1; i < Pages.PageCount + 1; i++)
             {
                 if (i  == Pages.PageIndex + 1)
@@ -17,6 +20,7 @@
                 }
                 else
                 {
+                    Pages.RouteValues["pageIndex"] = i - 1;
                     <li class="page-item">
                         @linkFragment(i.ToString())
                     </li>
@@ -24,6 +28,7 @@
             }
             if (Pages.HasNextPage)
             {
+                Pages.RouteValues["pageIndex"] = Pages.PageIndex + 1;
                 <li class="page-item @Pages.NextCssClass">
                     @linkFragment(Pages.NextText)
                 </li>
