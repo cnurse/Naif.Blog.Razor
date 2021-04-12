@@ -41,18 +41,21 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        linkFragment = (text) =>
+        await Task.Run(() =>
         {
-            var url = $"/{Pages.Controller}/{Pages.Action}";
-            bool isFirstItem = true;
-            foreach (var routeValue in Pages.RouteValues)
+            linkFragment = (text) =>
             {
-                url = (isFirstItem) ? "?" : "&";
-                url += $"{routeValue.Key}={routeValue.Value}";
-                isFirstItem = false;
-            }
+                var url = $"/{Pages.Controller}/{Pages.Action}";
+                bool isFirstItem = true;
+                foreach (var routeValue in Pages.RouteValues)
+                {
+                    url = (isFirstItem) ? "?" : "&";
+                    url += $"{routeValue.Key}={routeValue.Value}";
+                    isFirstItem = false;
+                }
 
-            return @<a class="page-link" href="@url">@text</a>;
-        };
+                return @<a class="page-link" href="@url">@text</a>;
+            };
+        });
     }
 }

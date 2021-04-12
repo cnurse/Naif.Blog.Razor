@@ -14,6 +14,9 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        _copyright = $"&copy; {DateTime.Now.Year} - {Blog.Title}";
+        await Task.Run(() =>
+        {
+            _copyright = $"&copy; {DateTime.Now.Year} - {Blog.Title}";
+        });
     }
 }

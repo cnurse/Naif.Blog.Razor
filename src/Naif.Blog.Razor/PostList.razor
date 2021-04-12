@@ -1,16 +1,34 @@
 @using Naif.Blog.Models
 
+@inherits ListComponentBase
+
 @{
 	foreach (var post in Posts)
 	{
 		<section>
-			<Excerpt Post="@post"></Excerpt>
+            @ExcerptFragment(post)
+            @Separator
 		</section>
 	}
 }
 
 @code {
-    
+	
 	[Parameter]
-	public IEnumerable<Post> Posts { get; set; }
+	public RenderFragment<Post> ExcerptFragment { get; set; } = (post) =>
+	{
+		var link = $"/post/{post.Slug}";
+
+		return @<article class="excerpt">
+			       <header>
+				       <h3><a href="@link">@post.Title</a></h3>
+			       </header>
+			       <section>
+				       <p>@((MarkupString) post.Excerpt)</p>
+			       </section>
+		       </article>;
+	};
+
+	[Parameter]
+	public RenderFragment Separator { get; set; } = @<hr>;
 }

@@ -1,11 +1,14 @@
 @using Naif.Blog.Models
 @using Naif.Core.Collections
 
+@inherits ListComponentBase
+
 @{
     foreach (var post in Posts)
     {
         <section>
-            <Excerpt Post="@post"></Excerpt>
+            @ExcerptFragment(post)
+            @Separator
         </section>
     }
 }
@@ -20,19 +23,30 @@
 
     [Parameter]
     public string Filter { get; set; }
-    
+
     [Parameter]
-    public int PageCount { get; set; }
+    public int PageCount { get; set; } = 10;
     
     [Parameter]
     public int PageIndex { get; set; }
 
     [Parameter]
-    public IEnumerable<Post> Posts { get; set; }
+    public RenderFragment<Post> ExcerptFragment { get; set; } = (post) =>
+    {
+        var link = $"/post/{post.Slug}";
+
+        return @<article class="excerpt">
+                   <header>
+                       <h3><a href="@link">@post.Title</a></h3>
+                   </header>
+                   <section>
+                       <p>@((MarkupString) post.Excerpt)</p>
+                   </section>
+               </article>;
+    };
 
     [Parameter]
-    public Dictionary<string, string> RouteValues { get; set; }
-
+    public RenderFragment Separator { get; set; } = @<hr>;
 
     protected override async Task OnParametersSetAsync()
     {
