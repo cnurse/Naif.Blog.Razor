@@ -49,7 +49,7 @@
                 bool isFirstItem = true;
                 foreach (var routeValue in Pages.RouteValues)
                 {
-                    url = (isFirstItem) ? "?" : "&";
+                    url += (isFirstItem) ? "?" : "&";
                     url += $"{routeValue.Key}={routeValue.Value}";
                     isFirstItem = false;
                 }
