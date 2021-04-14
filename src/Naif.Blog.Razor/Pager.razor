@@ -42,7 +42,7 @@
     [Parameter]
     public Models.Pager Pages { get; set; }
 
-    private RenderFragment<string> linkFragment;
+    private RenderFragment<string> linkFragment  { get; set; } = (text) => { return @<span></span>; };
 
     protected override async Task OnParametersSetAsync()
     {
