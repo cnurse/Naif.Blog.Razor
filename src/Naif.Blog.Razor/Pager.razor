@@ -1,40 +1,43 @@
 <footer>
-    <ul class="@Pages.CssClass">
-        @{
-            if (Pages.HasPreviousPage)
-            {
-                Pages.RouteValues["page"] = Pages.PageIndex - 1;
-                <li class="page-item @Pages.PreviousCssClass">
-                    @linkFragment(Pages.PreviousText)
-                </li>
-            }
-
-
-            for (int i = 1; i < Pages.PageCount + 1; i++)
-            {
-                if (i  == Pages.PageIndex + 1)
+    @if (Pages != null)
+    {
+        <ul class="@Pages.CssClass">
+            @{
+                if (Pages.HasPreviousPage)
                 {
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#">@i.ToString()</a>
+                    Pages.RouteValues["page"] = Pages.PageIndex - 1;
+                    <li class="page-item @Pages.PreviousCssClass">
+                        @linkFragment(Pages.PreviousText)
                     </li>
                 }
-                else
+
+
+                for (int i = 1; i < Pages.PageCount + 1; i++)
                 {
-                    Pages.RouteValues["page"] = i - 1;
-                    <li class="page-item">
-                        @linkFragment(i.ToString())
+                    if (i == Pages.PageIndex + 1)
+                    {
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">@i.ToString()</a>
+                        </li>
+                    }
+                    else
+                    {
+                        Pages.RouteValues["page"] = i - 1;
+                        <li class="page-item">
+                            @linkFragment(i.ToString())
+                        </li>
+                    }
+                }
+                if (Pages.HasNextPage)
+                {
+                    Pages.RouteValues["page"] = Pages.PageIndex + 1;
+                    <li class="page-item @Pages.NextCssClass">
+                        @linkFragment(Pages.NextText)
                     </li>
                 }
             }
-            if (Pages.HasNextPage)
-            {
-                Pages.RouteValues["page"] = Pages.PageIndex + 1;
-                <li class="page-item @Pages.NextCssClass">
-                    @linkFragment(Pages.NextText)
-                </li>
-            }
-        }
-    </ul>
+        </ul>
+    }
 </footer>
 
 @code {
