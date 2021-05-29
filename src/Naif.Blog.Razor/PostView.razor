@@ -8,14 +8,14 @@
             Category:
             @foreach (var category in Post.Categories)
             {
-                <span><a asp-controller="Post" asp-action="ViewCategory" asp-route-category="@category">@category</a></span>
+                <span><a asp-controller="Post" asp-action="ViewCategory" asp-route-category="@category.Name">@category.Name</a></span>
             }
         </div>
         <div>
             Tags:
             @foreach (var tag in Post.Tags)
             {
-                <span><a asp-controller="Post" asp-action="ViewTag" asp-route-tag="@tag">@tag</a></span>
+                <span><a asp-controller="Post" asp-action="ViewTag" asp-route-tag="@tag.Name">@tag.Name</a></span>
             }
         </div>
         <div>Last Modified: @Post.LastModified.ToString("MMM d yyyy")</div>

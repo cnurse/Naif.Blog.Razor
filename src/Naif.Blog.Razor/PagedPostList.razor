@@ -17,7 +17,7 @@
 
 @code {
 
-    private Models.Pager _pages;
+    private Naif.Core.Models.Pager _pages;
 
     private IPagedList<Post> _posts;
 
@@ -78,7 +78,7 @@
                 routeValues["filter"] = Filter;
             }
             
-            _pages = new Models.Pager
+            _pages = new Naif.Core.Models.Pager
             {
                 Action = action,
                 Controller = controller,
@@ -95,6 +95,5 @@
                 RouteValues = routeValues
             };
         });
-
     }
 }

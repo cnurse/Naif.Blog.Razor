@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Naif.Blog.Models;
+using Naif.Core.Models;
 
 namespace Naif.Blog.Razor
 {

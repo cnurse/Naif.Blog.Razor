@@ -1,9 +1,7 @@
 @using Naif.Blog.Models
-@using Naif.Blog.Services
+@using Naif.Core.Models
 
 @inherits Naif.Blog.Razor.MenuComponentBase
-
-@inject IBlogManager _blogManager
 
 <section class="categoryList">
     <h2>Categories</h2>
@@ -33,14 +31,14 @@
 			
         await Task.Run(() =>
         {
-            var categories = _blogManager.GetCategories(Blog.Id, Count);
+            var categories = Blog.Categories;
             foreach (var category in categories)
             {
                 var menuItem = new MenuItem()
                 {
                     IsActive = false,
-                    Link = $"/category/{category.Key}",
-                    Text = $"{category.Key} - ({category.Value})"
+                    Link = $"/category/{category.Name}",
+                    Text = $"{category.Name} - ({category.Count})"
                 };
                 _menu.Items.Add(menuItem);
             }
