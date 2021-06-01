@@ -32,7 +32,7 @@
         await Task.Run(() =>
         {
             var categories = Blog.Categories;
-            foreach (var category in categories)
+            foreach (var category in categories.OrderByDescending(c => c.Count).Take(Count))
             {
                 var menuItem = new MenuItem()
                 {
