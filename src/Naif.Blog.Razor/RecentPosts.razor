@@ -37,7 +37,7 @@
         await Task.Run(() =>
         {
             var recentPosts = _blogManager.GetRecentPosts(Blog.Id, Count);
-            foreach (var post in recentPosts)
+            foreach (var post in recentPosts.ToList())
             {
                 var menuItem = CreateMenuItem(post);
                 if (post.LastModified > post.PubDate.AddDays(1))

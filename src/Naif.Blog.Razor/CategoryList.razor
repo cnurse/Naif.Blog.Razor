@@ -31,9 +31,9 @@
 			
         await Task.Run(() =>
         {
-            IEnumerable<Category> categories = (Count < 0) 
-                        ? Blog.Categories.OrderByDescending(c => c.Count)
-                        : Blog.Categories.OrderByDescending(c => c.Count).Take(Count);
+            var categories = (Count < 0) 
+                        ? Blog.Categories.OrderByDescending(c => c.Count).ToList()
+                        : Blog.Categories.OrderByDescending(c => c.Count).Take(Count).ToList();
             foreach (var category in categories)
             {
                 var menuItem = new MenuItem()

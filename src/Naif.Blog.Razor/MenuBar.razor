@@ -2,7 +2,7 @@
 
 <ul class="@Menu.CssClass">
 	@{
-		foreach (var menuItem in Menu.Items)
+		foreach (var menuItem in Menu.Items.ToList())
 		{
 			if (menuItem.IsActive)
 			{
