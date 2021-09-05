@@ -22,6 +22,9 @@
     private IPagedList<Post> _posts;
 
     [Parameter]
+    public string BaseUrl { get; set; }
+
+    [Parameter]
     public string Filter { get; set; }
 
     [Parameter]
@@ -40,7 +43,7 @@
                        <h3><a href="@link">@post.Title</a></h3>
                    </header>
                    <section>
-                       <p>@((MarkupString) post.Excerpt)</p>
+                       @((MarkupString) post.Excerpt)
                    </section>
                </article>;
     };
@@ -52,38 +55,19 @@
     {
         _posts = Posts.InPagesOf(PageCount).GetPage(PageIndex);
             
-        string action = RouteValues["action"] as string;
-        string controller = RouteValues["controller"] as string;
-
-        string actionParameter = (action == "Index") 
-                                    ? String.Empty
-                                    : (action == "ViewCategory") 
-                                        ? "category"
-                                        : "tag";
-        string actionValue = (action == "Index")
-                                    ? String.Empty
-                                    : RouteValues[actionParameter] as string;
-
         await Task.Run(() =>
         {
             var routeValues = new Dictionary<string, object>();
 
-            if (!string.IsNullOrEmpty(actionParameter))
-            {
-                routeValues[actionParameter] = actionValue;
-            }
-            
             if (!string.IsNullOrEmpty(Filter))
             {
-                routeValues["filter"] = Filter;
+                BaseUrl += $"/filter/{Filter}";
             }
             
             _pages = new Naif.Core.Models.Pager
             {
-                Action = action,
-                Controller = controller,
+                BaseUrl = BaseUrl,
                 CssClass = "pagination",
-                Filter = Filter,
                 HasNextPage = _posts.HasNextPage,
                 HasPreviousPage = _posts.HasPreviousPage,
                 NextCssClass = "right",
