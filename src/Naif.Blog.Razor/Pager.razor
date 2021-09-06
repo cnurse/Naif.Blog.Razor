@@ -54,9 +54,12 @@
             linkFragment = (text) =>
             {
                 var url = Pages.BaseUrl;
+                var firstItem = true;
                 foreach (var routeValue in Pages.RouteValues)
                 {
-                    url += $"/{routeValue.Key}/{routeValue.Value}";
+                    url += (firstItem) ? "?" : "&";
+                    url += $"{routeValue.Key}={routeValue.Value}";
+                    firstItem = false;
                 }
 
                 return @<a class="page-link" href="@url">@text</a>;
