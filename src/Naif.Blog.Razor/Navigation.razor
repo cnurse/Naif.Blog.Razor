@@ -35,11 +35,11 @@
 
         if (IncludeParent && !string.IsNullOrEmpty(PostId))
         {
-            var currentPost = _blogManager.GetPost(Blog.Id, p => p.PostType != PostType.Post && p.PostId == PostId);
+            var currentPost = _blogManager.GetPost(Blog.BlogId, p => p.PostType != PostType.Post && p.PostId == PostId);
 
             if (currentPost != null && !string.IsNullOrEmpty(currentPost.ParentPostId))
             {
-                var parentPost = _blogManager.GetPost(Blog.Id, p => p.PostType != PostType.Post && p.PostId == currentPost.ParentPostId);
+                var parentPost = _blogManager.GetPost(Blog.BlogId, p => p.PostType != PostType.Post && p.PostId == currentPost.ParentPostId);
                 if (parentPost != null)
                 {
                     var menuItem = CreateMenuItem(parentPost);
@@ -51,7 +51,7 @@
 
         await Task.Run(() =>
         {
-            foreach(var post in _blogManager.GetPosts(Blog.Id, p => p.PostType != PostType.Post && p.ParentPostId == PostId))
+            foreach(var post in _blogManager.GetPosts(Blog.BlogId, p => p.PostType != PostType.Post && p.ParentPostId == PostId))
             {
                 _menu.Items.Add(CreateMenuItem(post));
             }

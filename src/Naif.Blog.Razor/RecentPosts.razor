@@ -36,7 +36,7 @@
 
         await Task.Run(() =>
         {
-            var recentPosts = _blogManager.GetRecentPosts(Blog.Id, Count);
+            var recentPosts = _blogManager.GetRecentPosts(Blog.BlogId, Count);
             foreach (var post in recentPosts.ToList())
             {
                 var menuItem = CreateMenuItem(post);
