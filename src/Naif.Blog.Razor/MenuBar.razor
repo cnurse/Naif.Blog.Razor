@@ -13,14 +13,11 @@
 					if(Menu.Depth > level && menuItem.Items.Count > 0)
 					{
 						<li>
-							<li>
-								<a class="dropdown-item" href="#">@((MarkupString)menuItem.Text) &nbsp;&nbsp;&raquo</a>
-							</li>
-		
+							<a class="dropdown-item" href="#">@((MarkupString)menuItem.Text) &nbsp;&nbsp;&raquo</a>
+
 							@{
-								RenderSubMenu(menuItem, level + 1);						
-							}
-    							
+                            	RenderSubMenu(menuItem, level + 1);						
+                            }
 						</li>
 					}
 					else
