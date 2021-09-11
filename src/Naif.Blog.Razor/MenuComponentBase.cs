@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 using Naif.Blog.Models;
 using Naif.Core.Models;
@@ -60,6 +61,8 @@ namespace Naif.Blog.Razor
                     };
                     break;
             }
+
+            item.Items = new List<MenuItem>();
 
             return item;
         }

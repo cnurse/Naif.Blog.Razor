@@ -66,12 +66,13 @@
     {
         foreach(var post in posts)
         {
-            menuItem.Items.Add(CreateMenuItem(post));
+            var childItem = CreateMenuItem(post);
+            menuItem.Items.Add(childItem);
 
             if (level < Depth)
             {
                 var childPosts = _blogManager.GetPosts(Blog.BlogId, p => p.PostType != PostType.Post && p.ParentPostId == post.PostId);
-                AddMenuItems(menuItem, childPosts, level + 1);
+                AddMenuItems(childItem, childPosts, level + 1);
             }
         }
     }
