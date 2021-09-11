@@ -27,7 +27,7 @@
     [Parameter]
     public int Depth { get; set; } = 1;
 
-    protected override async Task OnParametersSetAsync()
+    protected override void OnParametersSet()
     {
         _menu = new Menu
         {
@@ -55,11 +55,8 @@
         }
 
         //Add Pages to Menu
-        await Task.Run(() =>
-        {
-            var posts = _blogManager.GetPosts(Blog.BlogId, p => p.PostType != PostType.Post && p.ParentPostId == PostId);
-            AddMenuItems(_menu, posts, 1);
-        });
+        var posts = _blogManager.GetPosts(Blog.BlogId, p => p.PostType != PostType.Post && p.ParentPostId == PostId);
+        AddMenuItems(_menu, posts, 1);
     }
 
     private void AddMenuItems(BaseMenuItem menuItem, IEnumerable<Post> posts, int level)
