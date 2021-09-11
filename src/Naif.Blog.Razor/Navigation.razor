@@ -24,15 +24,20 @@
     [Parameter]
     public string PostId { get; set; }
 
+    [Parameter]
+    public int Depth { get; set; } = 1;
+
     protected override async Task OnParametersSetAsync()
     {
         _menu = new Menu
         {
             CssClass = CssClass,
+            Depth = Depth,
             IsActiveCssClass = "active",
             Items = new List<MenuItem>()
         };
 
+        //Include Parent
         if (IncludeParent && !string.IsNullOrEmpty(PostId))
         {
             var currentPost = _blogManager.GetPost(Blog.BlogId, p => p.PostType != PostType.Post && p.PostId == PostId);
@@ -49,12 +54,25 @@
             }
         }
 
+        //Add Pages to Menu
         await Task.Run(() =>
         {
-            foreach(var post in _blogManager.GetPosts(Blog.BlogId, p => p.PostType != PostType.Post && p.ParentPostId == PostId))
-            {
-                _menu.Items.Add(CreateMenuItem(post));
-            }
+            var posts = _blogManager.GetPosts(Blog.BlogId, p => p.PostType != PostType.Post && p.ParentPostId == PostId);
+            AddMenuItems(_menu, posts, 1);
         });
+    }
+
+    private void AddMenuItems(BaseMenuItem menuItem, IEnumerable<Post> posts, int level)
+    {
+        foreach(var post in posts)
+        {
+            menuItem.Items.Add(CreateMenuItem(post));
+
+            if (level < Depth)
+            {
+                var childPosts = _blogManager.GetPosts(Blog.BlogId, p => p.PostType != PostType.Post && p.ParentPostId == post.PostId);
+                AddMenuItems(menuItem, childPosts, level + 1);
+            }
+        }
     }
 }

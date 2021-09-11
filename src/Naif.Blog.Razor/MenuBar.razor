@@ -1,4 +1,39 @@
+@using System.Net.Security
 @using Naif.Core.Models;
+
+@{
+	
+	void RenderSubMenu(MenuItem item, int level)
+	{
+		var cssClass = (level == 2) ? "dropdown-menu" : "dropdown-menu dropdown-submenu";
+		<ul class="@cssClass">
+			@{
+				foreach(var menuItem in item.Items)
+				{
+					if(Menu.Depth > level && menuItem.Items.Count > 0)
+					{
+						<li>
+							<li>
+								<a class="dropdown-item" href="#">@((MarkupString)menuItem.Text) &nbsp;&nbsp;&raquo</a>
+							</li>
+		
+							@{
+								RenderSubMenu(menuItem, level + 1);						
+							}
+    							
+						</li>
+					}
+					else
+					{
+						<li>
+							<a class="dropdown-item" href="@GetMenuLink(menuItem)">@((MarkupString)menuItem.Text)</a>
+						</li>
+					}
+				}
+			}
+		</ul>
+	}
+}
 
 <ul class="@Menu.CssClass">
 	@{
@@ -6,32 +41,54 @@
 		{
 			if (menuItem.IsActive)
 			{
-				<li class="nav-item"><a class="nav-link @Menu.IsActiveCssClass" href="#">@menuItem.Text</a></li>
+				<li class="nav-item">
+					<a class="nav-link @Menu.IsActiveCssClass" href="#">@menuItem.Text</a>
+				</li>
 			}
 			else
 			{
-				string href;
-				if (string.IsNullOrEmpty(menuItem.Link))
+				if (Menu.Depth > 1  && menuItem.Items.Count > 0)
 				{
-					href = $"/{menuItem.Controller}/";
-					if (!string.IsNullOrEmpty(menuItem.Action))
-					{
-						href += $"{menuItem.Action}/";
-					}
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">@((MarkupString)menuItem.Text)</a>
+
+						@{
+							RenderSubMenu(menuItem, 2);	
+						}
+					</li>
 				}
 				else
 				{
-					href = menuItem.Link;
+					<li class="nav-item">
+						<a class="nav-link" href="@GetMenuLink(menuItem)">@((MarkupString)menuItem.Text)</a>
+					</li>
 				}
-				
-				<li class="nav-item"><a class="nav-link" href="@href">@((MarkupString)menuItem.Text)</a></li>
 			}
 		}
 	}
 </ul>
 
-
 @code {
 	[Parameter]
 	public Menu Menu { get; set; }
+
+	private string GetMenuLink(MenuItem menuItem)
+	{
+		string href;
+		if (string.IsNullOrEmpty(menuItem.Link))
+		{
+			href = $"/{menuItem.Controller}/";
+			if (!string.IsNullOrEmpty(menuItem.Action))
+			{
+				href += $"{menuItem.Action}/";
+			}
+		}
+		else
+		{
+			href = menuItem.Link;
+		}
+
+		return href;
+	}
+
 }
