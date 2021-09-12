@@ -38,19 +38,13 @@
         };
 
         //Include Parent
-        if (IncludeParent && !string.IsNullOrEmpty(PostId))
+        if (IncludeParent && Depth == 1 && !string.IsNullOrEmpty(PostId))
         {
             var currentPost = _blogManager.GetPost(Blog.BlogId, p => p.PostType != PostType.Post && p.PostId == PostId);
 
             if (currentPost != null && !string.IsNullOrEmpty(currentPost.ParentPostId))
             {
-                var parentPost = _blogManager.GetPost(Blog.BlogId, p => p.PostType != PostType.Post && p.PostId == currentPost.ParentPostId);
-                if (parentPost != null)
-                {
-                    var menuItem = CreateMenuItem(parentPost);
-                    menuItem.Text = "Return to " + menuItem.Text;
-                    _menu.Items.Add(menuItem);
-                }
+                AddParentPost(_menu, currentPost);
             }
         }
 
@@ -68,9 +62,23 @@
 
             if (level < Depth)
             {
-                var childPosts = _blogManager.GetPosts(Blog.BlogId, p => p.PostType != PostType.Post && p.ParentPostId == post.PostId);
+                var childPosts = _blogManager.GetPosts(Blog.BlogId, p => p.PostType != PostType.Post && p.ParentPostId == post.PostId).ToList();
+                if (IncludeParent)
+                {
+                    childPosts.Insert(0, post);
+                }
                 AddMenuItems(childItem, childPosts, level + 1);
             }
+        }
+    }
+
+    private void AddParentPost(BaseMenuItem menuItem, Post currentPost)
+    {
+        var parentPost = _blogManager.GetPost(Blog.BlogId, p => p.PostType != PostType.Post && p.PostId == currentPost.ParentPostId);
+        if (parentPost != null)
+        {
+            var childItem = CreateMenuItem(parentPost);
+            menuItem.Items.Add(childItem);
         }
     }
 }
