@@ -5,7 +5,7 @@
 	
 	void RenderSubMenu(MenuItem item, int level)
 	{
-		var cssClass = (level == 2) ? "dropdown-menu" : "dropdown-menu dropdown-submenu";
+		var cssClass = (level == 2) ? SubMenuCssClass : $"{SubMenuCssClass} dropdown-submenu";
 		<ul class="@cssClass">
 			@{
 				foreach(var menuItem in item.Items)
@@ -32,7 +32,7 @@
 	}
 }
 
-<ul class="@Menu.CssClass">
+<ul class="@CssClass">
 	@{
 		foreach (var menuItem in Menu.Items.ToList())
 		{
@@ -67,7 +67,13 @@
 
 @code {
 	[Parameter]
+	public string CssClass { get; set; }
+
+	[Parameter]
 	public Menu Menu { get; set; }
+
+	[Parameter]
+	public string SubMenuCssClass { get; set; }
 
 	private string GetMenuLink(MenuItem menuItem)
 	{

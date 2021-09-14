@@ -7,7 +7,7 @@
 @inject IBlogManager _blogManager
 
 
-<MenuBar Menu="@_menu"></MenuBar>
+<MenuBar Menu="@_menu" CassClass="@CssClass" SubMenuCssClass="@SubMenuCssClass"></MenuBar>
     
 @code {
     private Menu _menu;
@@ -19,19 +19,21 @@
     public string CssClass { get; set; }
     
     [Parameter]
+    public int Depth { get; set; } = 1;
+
+    [Parameter]
     public bool IncludeParent { get; set; }
 
     [Parameter]
     public string PostId { get; set; }
 
     [Parameter]
-    public int Depth { get; set; } = 1;
+    public string SubMenuCssClass { get; set; }
 
     protected override void OnParametersSet()
     {
         _menu = new Menu
         {
-            CssClass = CssClass,
             Depth = Depth,
             IsActiveCssClass = "active",
             Items = new List<MenuItem>()

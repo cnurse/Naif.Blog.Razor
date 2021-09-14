@@ -1,0 +1,39 @@
+@using Naif.Blog.Models
+@using Naif.Blog.Razor
+
+<nav class="@CssClass" role="navigation">
+    <div class="container">
+        <a class="navbar-brand" href="@homeUrl">@Blog.Title</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarMenu">
+            <Navigation Blog="@Blog" PostId="" CssClass="@MenuCssClass" SubMenuCssClass = "@SubMenuCssClass" Depth = "4" />
+        </div>
+    </div>
+</nav>
+
+
+@code {
+    private string homeUrl;
+    
+    [Parameter]
+    public Blog Blog { get; set; }
+    
+    [Parameter]
+    public string CssClass { get; set; }
+
+    [Parameter]
+    public string MenuCssClass { get; set; }
+
+    [Parameter]
+    public string SubMenuCssClass { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await Task.Run(() =>
+        {
+            homeUrl = (String.IsNullOrEmpty(Blog.HomeRedirectUrl)) ? "/home" : Blog.HomeRedirectUrl;
+        });
+    }
+}
