@@ -51,7 +51,7 @@
         }
 
         //Add Pages to Menu
-        var posts = _blogManager.GetPosts(Blog.BlogId, p => p.PostType != PostType.Post && p.ParentPostId == PostId);
+        var posts = _blogManager.GetPosts(Blog.BlogId, p => p.PostType != PostType.Post && p.ParentPostId == PostId).OrderBy(p => p.PageOrder);
         AddMenuItems(_menu, posts, 1);
     }
 
@@ -64,7 +64,7 @@
 
             if (level < Depth)
             {
-                var childPosts = _blogManager.GetPosts(Blog.BlogId, p => p.PostType != PostType.Post && p.ParentPostId == post.PostId).ToList();
+                var childPosts = _blogManager.GetPosts(Blog.BlogId, p => p.PostType != PostType.Post && p.ParentPostId == post.PostId).OrderBy(p => p.PageOrder).ToList();
                 if (IncludeParent)
                 {
                     childPosts.Insert(0, post);
