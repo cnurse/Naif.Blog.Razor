@@ -1,0 +1,41 @@
+@using Microsoft.AspNetCore.Components.Authorization
+
+<ul class="@CssClass">
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">@Profile.Name</a>
+        <ul class="@SubMenuCssClass">
+            <li>
+                <a class="dropdown-item" href="#">Preferences</a>
+            </li>
+            <AuthorizeView>
+                <li>
+                    <a class="dropdown-item" asp-controller="Profile" asp-action="Claims">Claims (Admin only)</a>
+                </li>
+            </AuthorizeView>
+            <li>
+                <a class="dropdown-item" href="#">My Account</a>
+            </li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li>
+                <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Log Out</a>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+
+@code {
+
+    [Parameter]
+    public Naif.Auth0.Models.Profile Profile { get; set; }
+
+    [Parameter]
+    public string CssClass { get; set; }
+
+    [Parameter]
+    public string SubMenuCssClass { get; set; }
+
+
+}

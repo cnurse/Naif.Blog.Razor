@@ -1,5 +1,7 @@
+@using Naif.Blog.Framework
 @using Naif.Blog.Models
-@using Naif.Blog.Razor
+
+@inject IBlogContext _blogContext;
 
 <nav class="@CssClass" role="navigation">
     <div class="container">
@@ -8,7 +10,10 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarMenu">
-            <Navigation Blog="@Blog" PostId="" CssClass="@MenuCssClass" SubMenuCssClass="@SubMenuCssClass" Depth = "@Depth" IncludeParent="@IncludeParent" />
+            <Navigation Blog="@Blog" PostId="" CssClass="@MenuCssClass" SubMenuCssClass="@SubMenuCssClass" Depth="@Depth" IncludeParent="@IncludeParent" />
+        </div>
+        <div class="collapse navbar-collapse justify-content-end" id="profileMenu">
+            <ProfileMenu Profile="@_blogContext.User" CssClass="@MenuCssClass" SubMenuCssClass="@SubMenuCssClass" />
         </div>
     </div>
 </nav>
