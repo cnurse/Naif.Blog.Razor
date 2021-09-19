@@ -9,10 +9,12 @@
                     <li>
                         <a class="dropdown-item" href="#">Preferences</a>
                     </li>
-                    <AuthorizeView Roles="Admin">
+                    <AuthorizeView Roles="Admin" >
+                        <ChildContent Context="claimsContext">
                         <li>
                             <a class="dropdown-item" asp-controller="Profile" asp-action="Claims">Claims (Admin only)</a>
                         </li>
+                        </ChildContent>
                     </AuthorizeView>
                     <li>
                         <a class="dropdown-item" href="#">My Account</a>
