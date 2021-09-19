@@ -46,5 +46,6 @@
     [Parameter]
     public string SubMenuCssClass { get; set; }
 
-
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
 }
