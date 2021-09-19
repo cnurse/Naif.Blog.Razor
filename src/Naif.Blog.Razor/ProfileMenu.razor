@@ -7,18 +7,25 @@
     {
         <ul class="@CssClass">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">@Profile.Name</a>
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">@_user.Identity.Name</a>
                 <ul class="@SubMenuCssClass">
+                    @if (IncludeProfilePicture && !String.IsNullOrEmpty(_imageUrl))
+                    {
+                        <li>
+                            <img class="profileImage" src="@_imageUrl"/>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                    }
                     <li>
                         <a class="dropdown-item" href="#">Preferences</a>
                     </li>
-                    @{
-                        if (_user.IsInRole("Admin"))
-                        {
-                            <li>
-                                <a class="dropdown-item" asp-controller="Profile" asp-action="Claims">Claims (Admin only)</a>
-                            </li>
-                        }
+                    @if (_user.IsInRole("Admin"))
+                    {
+                        <li>
+                            <a class="dropdown-item" href="profile/claims">Claims (Admin only)</a>
+                        </li>
                     }
                     <li>
                         <a class="dropdown-item" href="#">My Account</a>
@@ -27,7 +34,7 @@
                         <hr class="dropdown-divider">
                     </li>
                     <li>
-                        <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Log Out</a>
+                        <a class="dropdown-item" href="account/logout">Log Out</a>
                     </li>
                 </ul>
             </li>
@@ -44,12 +51,13 @@
 
 @code {
     private ClaimsPrincipal _user;
-
-    [Parameter]
-    public Naif.Auth0.Models.Profile Profile { get; set; }
+    private string _imageUrl;
 
     [Parameter]
     public string CssClass { get; set; }
+    
+    [Parameter]
+    public bool IncludeProfilePicture { get; set; }
 
     [Parameter]
     public string SubMenuCssClass { get; set; }
@@ -58,5 +66,6 @@
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         _user = authState.User;
+        _imageUrl = _user.Claims.FirstOrDefault(c => c.Type == "picture")?.Value;
     }
 }
