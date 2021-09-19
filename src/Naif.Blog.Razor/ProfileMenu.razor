@@ -2,43 +2,42 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
-@{
-    if (_user.Identity.IsAuthenticated)
+
+<ul class="@CssClass">
+    @if (_user.Identity.IsAuthenticated)
     {
-        <ul class="@CssClass">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">@_user.Identity.Name</a>
-                <ul class="@SubMenuCssClass">
-                    @if (IncludeProfilePicture && !String.IsNullOrEmpty(_imageUrl))
-                    {
-                        <li>
-                            <img class="profileImage" src="@_imageUrl"/>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                    }
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">@_user.Identity.Name</a>
+            <ul class="@SubMenuCssClass">
+                @if (IncludeProfilePicture && !String.IsNullOrEmpty(_imageUrl))
+                {
                     <li>
-                        <a class="dropdown-item" href="#">Preferences</a>
-                    </li>
-                    @if (_user.IsInRole("Admin"))
-                    {
-                        <li>
-                            <a class="dropdown-item" href="/profile/claims">Claims (Admin only)</a>
-                        </li>
-                    }
-                    <li>
-                        <a class="dropdown-item" href="#">My Account</a>
+                        <img class="profileImage" src="@_imageUrl"/>
                     </li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
+                }
+                <li>
+                    <a class="dropdown-item" href="#">Preferences</a>
+                </li>
+                @if (_user.IsInRole("Admin"))
+                {
                     <li>
-                        <a class="dropdown-item" href="/account/logout">Sign Out</a>
+                        <a class="dropdown-item" href="/profile/claims">Claims (Admin only)</a>
                     </li>
-                </ul>
-            </li>
-        </ul>
+                }
+                <li>
+                    <a class="dropdown-item" href="#">My Account</a>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li>
+                    <a class="dropdown-item" href="/account/logout">Sign Out</a>
+                </li>
+            </ul>
+        </li>
     }
     else
     {
@@ -55,7 +54,7 @@
             </li>
         }
     }
-}
+</ul>
 
 
 @code {
