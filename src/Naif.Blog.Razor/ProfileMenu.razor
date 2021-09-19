@@ -1,7 +1,10 @@
+@using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
-<AuthorizeView>
-    <Authorized>
+@{
+    if (_user.Identity.IsAuthenticated)
+    {
         <ul class="@CssClass">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">@Profile.Name</a>
@@ -9,13 +12,14 @@
                     <li>
                         <a class="dropdown-item" href="#">Preferences</a>
                     </li>
-                    <AuthorizeView Roles="Admin" >
-                        <ChildContent Context="claimsContext">
-                        <li>
-                            <a class="dropdown-item" asp-controller="Profile" asp-action="Claims">Claims (Admin only)</a>
-                        </li>
-                        </ChildContent>
-                    </AuthorizeView>
+                    @{
+                        if (_user.IsInRole("Admin"))
+                        {
+                            <li>
+                                <a class="dropdown-item" asp-controller="Profile" asp-action="Claims">Claims (Admin only)</a>
+                            </li>
+                        }
+                    }
                     <li>
                         <a class="dropdown-item" href="#">My Account</a>
                     </li>
@@ -28,14 +32,18 @@
                 </ul>
             </li>
         </ul>
-    </Authorized>
-    <NotAuthorized>
-        <span>Not Logged In</span>
-    </NotAuthorized>
-</AuthorizeView>
+    }
+    else
+    {
+        {
+            <span>Not Logged In</span>
+        }
+    }
+}
 
 
 @code {
+    private ClaimsPrincipal _user;
 
     [Parameter]
     public Naif.Auth0.Models.Profile Profile { get; set; }
@@ -46,6 +54,9 @@
     [Parameter]
     public string SubMenuCssClass { get; set; }
 
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    protected override async Task OnParametersSetAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        _user = authState.User;
+    }
 }

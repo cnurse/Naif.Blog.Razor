@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>Naif.Blog.Razor</id>
-        <version>1.2.0-beta.13</version>
+        <version>1.2.0-beta.14</version>
         <authors>Charles Nurse</authors>
         <title>Naif.Blog.Razor</title>
         <description>This package contains Razor components for use in the Naif.Blog family of projects</description>
