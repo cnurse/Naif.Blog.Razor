@@ -7,10 +7,12 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarMenu">
-            <Navigation Blog="@Blog" PostId="" CssClass="@MenuCssClass" SubMenuCssClass="@SubMenuCssClass" Depth="@Depth" IncludeParent="@IncludeParent" />
+            <Navigation Blog="@Blog" PostId="" CssClass="@MenuCssClass" SubMenuCssClass="@SubMenuCssClass" Depth="@Depth" 
+                        IncludeParent="@IncludeParent" />
         </div>
         <div class="collapse navbar-collapse justify-content-end" id="profileMenu">
-            <ProfileMenu IncludeProfilePicture="true" CssClass="@MenuCssClass" SubMenuCssClass="@SubMenuCssClass" />
+            <ProfileMenu IncludeSignIn="@IncludeSignIn" IncludeSignUp="IncludeSignUp" IncludeProfilePicture="@IncludeProfilePicture" 
+                         CssClass="@MenuCssClass" SubMenuCssClass="@SubMenuCssClass" />
         </div>
     </div>
 </nav>
@@ -30,7 +32,16 @@
 
     [Parameter]
     public bool IncludeParent { get; set; }
-    
+
+    [Parameter]
+    public bool IncludeProfilePicture { get; set; }
+
+    [Parameter]
+    public bool IncludeSignIn { get; set; }
+
+    [Parameter]
+    public bool IncludeSignUp { get; set; }
+
     [Parameter]
     public string MenuCssClass { get; set; }
 

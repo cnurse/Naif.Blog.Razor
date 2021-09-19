@@ -34,7 +34,7 @@
                         <hr class="dropdown-divider">
                     </li>
                     <li>
-                        <a class="dropdown-item" href="/account/logout">Log Out</a>
+                        <a class="dropdown-item" href="/account/logout">Sign Out</a>
                     </li>
                 </ul>
             </li>
@@ -42,8 +42,17 @@
     }
     else
     {
+        if (IncludeSignIn)
         {
-            <span>Not Logged In</span>
+            <li class="nav-item">
+                <a class="nav-link" href="/account/login">Sign In</a>
+            </li>
+        }
+        if (IncludeSignUp)
+        {
+            <li class="nav-item">
+                <a class="nav-link" href="/account/register">Sign Up</a>
+            </li>
         }
     }
 }
@@ -56,6 +65,12 @@
     [Parameter]
     public string CssClass { get; set; }
     
+    [Parameter]
+    public bool IncludeSignIn { get; set; }
+
+    [Parameter]
+    public bool IncludeSignUp { get; set; }
+
     [Parameter]
     public bool IncludeProfilePicture { get; set; }
 
