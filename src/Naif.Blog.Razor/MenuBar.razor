@@ -62,13 +62,19 @@
 				}
 			}
 		}
-		<AdminMenu CssClass="@SubMenuCssClass" />
+		@if (IncludeAdminMenu)
+		{
+			<AdminMenu CssClass="@SubMenuCssClass" />
+		}
 	}
 </ul>
 
 @code {
 	[Parameter]
 	public string CssClass { get; set; }
+	
+	[Parameter]
+	public bool IncludeAdminMenu { get; set; }
 
 	[Parameter]
 	public Menu Menu { get; set; }
