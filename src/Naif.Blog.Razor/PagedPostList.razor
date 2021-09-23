@@ -23,17 +23,15 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Title</th>
-                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
             @foreach(var post in Posts)
             {
-                var linkUrl = $"{BaseUrl}/{PageIndex}/post/{post.Slug}";
+                var linkUrl = $"{BaseUrl}/{PageIndex}/post/{post.PostId}";
                 <tr>
                     <th scope="row">@index</th>
-                    <td>@post.Title</td>
-                    <td><a class="btn btn-primary btn-sm" href="@linkUrl" role="button">Link</a></td>
+                    <td><a href="@linkUrl">@post.Title</a></td>
                 </tr>
 
                 index++;
