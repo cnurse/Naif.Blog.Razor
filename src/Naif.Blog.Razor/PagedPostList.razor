@@ -1,15 +1,44 @@
+@using Microsoft.AspNetCore.Mvc.RazorPages
 @using Naif.Blog.Models
 @using Naif.Core.Collections
 
 @inherits ListComponentBase
 
 @{
-    foreach (var post in _posts)
+    if (Mode == ListMode.List)
     {
-        <section>
-            @ExcerptFragment(post)
-            @Separator
-        </section>
+        foreach (var post in _posts)
+        {
+            <section>
+                @ExcerptFragment(post)
+                @Separator
+            </section>
+        }
+    }
+    else
+    {
+        int index = PageIndex * PageCount + 1;
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Excerpt</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach(var post in Posts)
+            {
+                <tr>
+                    <th scope="row">@index</th>
+                    <td>@post.Title</td>
+                    <td>@post.Excerpt</td>
+                </tr>
+
+                index++;
+            }
+            </tbody>
+        </table>
     }
 }
 
@@ -26,6 +55,9 @@
 
     [Parameter]
     public string Filter { get; set; }
+
+    [Parameter]
+    public ListMode Mode { get; set; } = ListMode.List;
 
     [Parameter]
     public int PageCount { get; set; } = 10;
