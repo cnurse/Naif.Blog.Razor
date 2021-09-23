@@ -32,7 +32,7 @@
                 <tr>
                     <th scope="row">@index</th>
                     <td>@post.Title</td>
-                    <td>@post.Excerpt</td>
+                    <td>@((MarkupString) post.Excerpt)</td>
                 </tr>
 
                 index++;
