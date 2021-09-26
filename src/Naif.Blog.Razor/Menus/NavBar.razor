@@ -1,4 +1,5 @@
 @using Naif.Blog.Models
+@using Naif.Blog.Services
 
 <nav class="@CssClass" role="navigation">
     <div class="container">
@@ -7,12 +8,20 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarMenu">
-            <Navigation Blog="@Blog" PostId="" CssClass="@MenuCssClass" SubMenuCssClass="@SubMenuCssClass" Depth="@Depth" 
+            <Navigation Blog="@Blog" 
+                        BlogManager="@BlogManager"
+                        PostId="" 
+                        CssClass="@MenuCssClass" 
+                        SubMenuCssClass="@SubMenuCssClass" 
+                        Depth="@Depth" 
                         IncludeParent="@IncludeParent" />
         </div>
         <div class="collapse navbar-collapse justify-content-end" id="profileMenu">
-            <ProfileMenu IncludeSignIn="@IncludeSignIn" IncludeSignUp="IncludeSignUp" IncludeProfilePicture="@IncludeProfilePicture" 
-                         CssClass="@MenuCssClass" SubMenuCssClass="@SubMenuCssClass" />
+            <ProfileMenu IncludeSignIn="@IncludeSignIn" 
+                         IncludeSignUp="IncludeSignUp" 
+                         IncludeProfilePicture="@IncludeProfilePicture" 
+                         CssClass="@MenuCssClass" 
+                         SubMenuCssClass="@SubMenuCssClass" />
         </div>
     </div>
 </nav>
@@ -23,6 +32,9 @@
     
     [Parameter]
     public Blog Blog { get; set; }
+    
+    [Parameter]
+    public IBlogManager BlogManager { get; set; }
     
     [Parameter]
     public string CssClass { get; set; }

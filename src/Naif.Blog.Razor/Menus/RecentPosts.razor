@@ -1,10 +1,6 @@
-@using Naif.Blog.Models
-@using Naif.Blog.Services
 @using Naif.Core.Models
 
 @inherits MenuComponentBase
-
-@inject IBlogManager _blogManager
 
 <section class="recentArticles">
     <h2>Recent Articles</h2>
@@ -16,13 +12,7 @@
     private Menu _menu;
     
     [Parameter]
-    public Blog Blog { get; set; }
-
-    [Parameter]
     public int Count { get; set; } = -1;
-
-    [Parameter]
-    public string CssClass { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -35,7 +25,7 @@
 
         await Task.Run(() =>
         {
-            var recentPosts = _blogManager.GetRecentPosts(Blog.BlogId, Count);
+            var recentPosts = BlogManager.GetRecentPosts(Blog.BlogId, Count);
             foreach (var post in recentPosts.ToList())
             {
                 var menuItem = CreateMenuItem(post);
