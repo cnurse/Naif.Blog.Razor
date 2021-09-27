@@ -11,7 +11,7 @@
 
     private Menu _menu;
     
-    protected override async Task OnParametersSetAsync()
+    protected override void OnParametersSet()
     {
         _menu = new Menu
         {
@@ -19,21 +19,17 @@
             Items = new List<MenuItem>()
         };
 
-
-        await Task.Run(() =>
+        foreach (var post in Posts)
         {
-            foreach (var post in Posts)
+            var menuItem = CreateMenuItem(post);
+            if (post.LastModified > post.PubDate.AddDays(1))
             {
-                var menuItem = CreateMenuItem(post);
-                if (post.LastModified > post.PubDate.AddDays(1))
-                {
-                    menuItem.Text += "<small><em> -  updated</em></small>";
-                }
-
-
-                _menu.Items.Add(menuItem);
+                menuItem.Text += "<small><em> -  updated</em></small>";
             }
-        });
+
+
+            _menu.Items.Add(menuItem);
+        }
 
     }
 }

@@ -17,7 +17,7 @@
     [Parameter]
     public IList<Category> Categories { get; set; }
 
-    protected override async Task OnParametersSetAsync()
+    protected override void OnParametersSet()
     {
         _menu = new Menu
         {
@@ -25,21 +25,18 @@
             Items = new List<MenuItem>()
         };
 			
-        await Task.Run(() =>
+        var categories = (Count < 0) 
+            ? Categories.OrderByDescending(c => c.Count).ToList()
+            : Categories.OrderByDescending(c => c.Count).Take(Count).ToList();
+        foreach (var category in categories)
         {
-            var categories = (Count < 0) 
-                        ? Categories.OrderByDescending(c => c.Count).ToList()
-                        : Categories.OrderByDescending(c => c.Count).Take(Count).ToList();
-            foreach (var category in categories)
+            var menuItem = new MenuItem()
             {
-                var menuItem = new MenuItem()
-                {
-                    IsActive = false,
-                    Link = $"/category/{category.Name}",
-                    Text = $"{category.Name} - ({category.Count})"
-                };
-                _menu.Items.Add(menuItem);
-            }
-        });
+                IsActive = false,
+                Link = $"/category/{category.Name}",
+                Text = $"{category.Name} - ({category.Count})"
+            };
+            _menu.Items.Add(menuItem);
+        }
     }
 }
