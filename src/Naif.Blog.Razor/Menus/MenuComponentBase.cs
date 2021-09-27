@@ -10,12 +10,6 @@ namespace Naif.Blog.Razor
     public class MenuComponentBase : ComponentBase
     {
         [Parameter]
-        public Models.Blog Blog { get; set; }
-        
-        [Parameter]
-        public IBlogManager BlogManager { get; set; }
-
-        [Parameter]
         public string CssClass { get; set; }
     
         [Parameter]
@@ -28,6 +22,9 @@ namespace Naif.Blog.Razor
 
         [Parameter]
         public string PostId { get; set; }
+        
+        [Parameter]
+        public IList<Post> Posts { get; set; }
 
         [Parameter]
         public string SubMenuCssClass { get; set; }
@@ -104,7 +101,7 @@ namespace Naif.Blog.Razor
             //Include Parent
             if (IncludeParent && Depth == 1 && !string.IsNullOrEmpty(PostId))
             {
-                var currentPost = BlogManager.GetPost(Blog.BlogId, p => p.PostType != PostType.Post && p.PostId == PostId);
+                var currentPost = Posts.SingleOrDefault(p => p.PostId == PostId);
     
                 if (currentPost != null && !string.IsNullOrEmpty(currentPost.ParentPostId))
                 {
@@ -113,7 +110,7 @@ namespace Naif.Blog.Razor
             }
     
             //Add Pages to Menu
-            var posts = BlogManager.GetPosts(Blog.BlogId, p => p.PostType != PostType.Post && p.ParentPostId == PostId).OrderBy(p => p.PageOrder);
+            var posts = Posts.Where(p => p.ParentPostId == PostId).OrderBy(p => p.PageOrder);
             AddMenuItems(Menu, posts, 1);
         }
     
@@ -126,7 +123,7 @@ namespace Naif.Blog.Razor
     
                 if (level < Depth)
                 {
-                    var childPosts = BlogManager.GetPosts(Blog.BlogId, p => p.PostType != PostType.Post && p.ParentPostId == post.PostId).OrderBy(p => p.PageOrder).ToList();
+                    var childPosts = Posts.Where(p => p.ParentPostId == post.PostId).OrderBy(p => p.PageOrder).ToList();
                     if (IncludeParent)
                     {
                         childPosts.Insert(0, post);
@@ -138,13 +135,12 @@ namespace Naif.Blog.Razor
     
         private void AddParentPost(BaseMenuItem menuItem, Post currentPost)
         {
-            var parentPost = BlogManager.GetPost(Blog.BlogId, p => p.PostType != PostType.Post && p.PostId == currentPost.ParentPostId);
+            var parentPost = Posts.SingleOrDefault(p => p.PostId == currentPost.ParentPostId);
             if (parentPost != null)
             {
                 var childItem = CreateMenuItem(parentPost);
                 menuItem.Items.Add(childItem);
             }
         }
-
     }
 }

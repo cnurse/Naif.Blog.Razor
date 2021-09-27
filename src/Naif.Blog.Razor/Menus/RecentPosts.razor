@@ -11,9 +11,6 @@
 
     private Menu _menu;
     
-    [Parameter]
-    public int Count { get; set; } = -1;
-
     protected override async Task OnParametersSetAsync()
     {
         _menu = new Menu
@@ -25,8 +22,7 @@
 
         await Task.Run(() =>
         {
-            var recentPosts = BlogManager.GetRecentPosts(Blog.BlogId, Count);
-            foreach (var post in recentPosts.ToList())
+            foreach (var post in Posts)
             {
                 var menuItem = CreateMenuItem(post);
                 if (post.LastModified > post.PubDate.AddDays(1))

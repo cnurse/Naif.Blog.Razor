@@ -1,3 +1,4 @@
+@using Naif.Blog.Models
 @using Naif.Core.Models
 
 @inherits Naif.Blog.Razor.MenuComponentBase
@@ -12,6 +13,9 @@
     
     [Parameter]
     public int Count { get; set; } = -1;
+    
+    [Parameter]
+    public IList<Category> Categories { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -24,8 +28,8 @@
         await Task.Run(() =>
         {
             var categories = (Count < 0) 
-                        ? Blog.Categories.OrderByDescending(c => c.Count).ToList()
-                        : Blog.Categories.OrderByDescending(c => c.Count).Take(Count).ToList();
+                        ? Categories.OrderByDescending(c => c.Count).ToList()
+                        : Categories.OrderByDescending(c => c.Count).Take(Count).ToList();
             foreach (var category in categories)
             {
                 var menuItem = new MenuItem()
