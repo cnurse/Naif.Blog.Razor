@@ -29,7 +29,7 @@ namespace Naif.Blog.Razor
         [Parameter]
         public string SubMenuCssClass { get; set; }
 
-        protected MenuItem CreateMenuItem(Post post)
+        protected virtual MenuItem CreateMenuItem(Post post)
         {
             MenuItem item = null;
             switch (post.PostType)
