@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Components;
 using Naif.Blog.Models;
-using Naif.Blog.Services;
 using Naif.Core.Models;
 
 namespace Naif.Blog.Razor
@@ -25,7 +24,7 @@ namespace Naif.Blog.Razor
         
         [Parameter]
         public IList<Post> Posts { get; set; }
-
+        
         [Parameter]
         public string SubMenuCssClass { get; set; }
 
