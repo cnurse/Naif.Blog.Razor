@@ -1,0 +1,98 @@
+﻿@using Naif.Blog.Models
+@using Naif.Core.Framework
+@using Naif.Core.Models
+
+@inherits Naif.Blog.Razor.MenuComponentBase
+
+
+@{
+    void RenderAccordion(MenuItem menuItem, int level, int index)
+    {
+        var collapseTargetId = $"collapse-{level}-{index}";
+        var accordionId = $"accordion-{level}";
+        var show = menuItem.Items.ContainsIsActive() ? "show" : "";
+
+        <div class="accordion accordion-flush" id="@accordionId">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" 
+                            data-bs-target="#@collapseTargetId" aria-expanded="true" aria-controls="@collapseTargetId">
+                        @menuItem.Text
+                    </button>
+                </h2>
+                <div id="@collapseTargetId" class="accordion-collapse collapse @show" 
+                     aria-labelledby="headingOne" data-bs-parent="#@accordionId">
+                    <div class="accordion-body">
+                        @{
+                            RenderSubMenu(menuItem, level + 1);	
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    void RenderSubMenu(MenuItem item, int level)
+    {
+        var cssClass = (level == 2) ? SubMenuCssClass : $"{SubMenuCssClass} accordion-submenu";
+        <div class="@cssClass">
+            @{
+                int index = 0;
+                foreach(var menuItem in item.Items)
+                {
+                    if(Menu.Depth > level && menuItem.Items.Count > 0)
+                    {
+                        RenderAccordion(menuItem, level, index);
+                    }
+                    else
+                    {
+                        <a href="@menuItem.Link" class="list-group-item list-group-item-action" aria-current="true">
+                            @menuItem.Text
+                        </a>
+                    }
+                    index++;
+                }
+            }
+        </div>
+
+    }
+}
+
+<div class="@CssClass">
+    @foreach (var menuItem in Menu.Items)
+    {
+        int index = 0;
+        if (Menu.Depth > 1 && menuItem.Items.Count > 0)
+        {
+            RenderAccordion(menuItem, 2, index);
+        }
+        else
+        {
+            <a href="@menuItem.Link" class="list-group-item list-group-item-action" aria-current="true">
+                @menuItem.Text
+            </a>
+        }
+    }
+</div>
+
+@code {
+
+    [Parameter]
+    public string BaseUrl { get; set; }
+
+    [Parameter]
+    public Post SelectedPost { get; set; }
+
+    protected override MenuItem CreateMenuItem(Post post)
+    {
+        MenuItem item = new MenuItem
+        {
+            IsActive = post.PostId == SelectedPost.PostId,
+            Link = $"{BaseUrl}/page/{post.PostId}",
+            Text = post.Title,
+            Items = new List<MenuItem>()
+        };
+
+        return item;
+    }
+}

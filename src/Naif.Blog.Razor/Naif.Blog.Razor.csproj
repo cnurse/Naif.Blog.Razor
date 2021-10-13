@@ -4,14 +4,14 @@
         <TargetFramework>net5.0</TargetFramework>
         <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
         <ProductVersion>2.0.0</ProductVersion>
-        <FileVersion>2.0.0.17</FileVersion>
+        <FileVersion>2.0.0.18</FileVersion>
         <NuspecFile>$(MSBuildProjectName).nuspec</NuspecFile>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="5.0.10" />
       <PackageReference Include="Naif.Blog.Core" Version="3.1.1-alpha.1" />
-      <PackageReference Include="Naif.Core" Version="3.3.0-beta.4" />
+      <PackageReference Include="Naif.Core" Version="3.3.1-alpha.1" />
     </ItemGroup>
 
 </Project>
