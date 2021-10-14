@@ -14,14 +14,16 @@
             Category:
             @foreach (var category in Post.Categories)
             {
-                <span><a asp-controller="Post" asp-action="ViewCategory" asp-route-category="@category.Name">@category.Name</a></span>
+                var categoryUrl = $"{CategoryUrl}/{category.Name}";
+                <span><a href="@categoryUrl">@category.Name</a></span>
             }
         </div>
         <div>
             Tags:
             @foreach (var tag in Post.Tags)
             {
-                <span><a asp-controller="Post" asp-action="ViewTag" asp-route-tag="@tag.Name">@tag.Name</a></span>
+                var tagUrl = $"{TagUrl}/{tag.Name}";
+                <span><a href="@tagUrl">@tag.Name</a></span>
             }
         </div>
         <div>Last Modified: @Post.LastModified.ToString("MMM d yyyy")</div>
@@ -37,5 +39,12 @@
     public Post Post { get; set; }
     
     [Parameter]
+    public string CategoryUrl { get; set; }
+    
+    [Parameter]
     public string EditUrl { get; set; }
+
+    [Parameter]
+    public string TagUrl { get; set; }
+
 }
