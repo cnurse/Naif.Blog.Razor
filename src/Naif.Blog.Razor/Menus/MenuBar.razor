@@ -34,6 +34,7 @@
 
 <ul class="@CssClass">
 	@{
+		var hasItems = Menu.Items.Count > 0;
 		foreach (var menuItem in Menu.Items.ToList())
 		{
 			if (menuItem.IsActive)
@@ -64,7 +65,7 @@
 		}
 		@if (IncludeAdminMenu)
 		{
-			<AdminMenu CssClass="@SubMenuCssClass" IncludePages="@Menu.Items.Count > 0" />
+			<AdminMenu CssClass="@SubMenuCssClass" IncludePages="@hasItems" />
 		}
 	}
 </ul>
