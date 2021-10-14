@@ -1,8 +1,14 @@
 @using Naif.Blog.Models
+
 <article class="post">
     <header>
-        <div>
-            <h2>@Post.Title</h2>
+        <div class="row">
+            <div class="col-lg-11">
+                <h2>@Post.Title</h2>
+            </div>
+            <div class="col-lg-1">
+                <h2><a class="link" href="@EditUrl"><i class="bi bi-pencil"></i></a></h2>
+            </div>
         </div>
         <div>
             Category:
@@ -29,4 +35,7 @@
        
     [Parameter]
     public Post Post { get; set; }
+    
+    [Parameter]
+    public string EditUrl { get; set; }
 }
