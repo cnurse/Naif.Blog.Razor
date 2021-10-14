@@ -1,4 +1,3 @@
-@using Microsoft.AspNetCore.Mvc.RazorPages
 @using Naif.Blog.Models
 @using Naif.Core.Collections
 
@@ -10,7 +9,7 @@
         foreach (var post in _posts)
         {
             <section>
-                @ExcerptFragment(post)
+                @ExcerptFragment(new Tuple<Post, string>(post, BaseUrl))
                 @Separator
             </section>
         }
@@ -28,10 +27,10 @@
             <tbody>
             @foreach(var post in Posts)
             {
-                var linkUrl = $"{BaseUrl}/{PageIndex}/post/{post.PostId}";
+                var editUrl = $"{BaseUrl}/{PageIndex}/edit/{post.PostId}";
                 <tr>
                     <th scope="row">@index</th>
-                    <td><a href="@linkUrl">@post.Title</a></td>
+                    <td><a href="@editUrl">@post.Title</a></td>
                 </tr>
 
                 index++;
@@ -65,13 +64,24 @@
     public int PageIndex { get; set; }
 
     [Parameter]
-    public RenderFragment<Post> ExcerptFragment { get; set; } = (post) =>
+    public RenderFragment<Tuple<Post, string>> ExcerptFragment { get; set; } = (t) =>
     {
+        var post = t.Item1;
+        var baseUrl = t.Item2;
+		
         var link = $"/post/{post.Slug}";
+        var editUrl = $"{baseUrl}/0/edit/{post.PostId}";
 
         return @<article class="excerpt">
                    <header>
-                       <h3><a href="@link">@post.Title</a></h3>
+		               <div class="row">
+                           <div class="col-lg-11">
+						       <h3><a href="@link">@post.Title</a></h3>
+                           </div>
+                           <div class="col-lg-1">
+                               <h3><a class="link" href="@editUrl"><i class="bi bi-pencil"></i></a></h3>
+                           </div>
+                       </div>
                    </header>
                    <section>
                        @((MarkupString) post.Excerpt)
