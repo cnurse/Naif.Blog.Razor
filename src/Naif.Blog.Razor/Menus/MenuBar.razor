@@ -64,7 +64,7 @@
 		}
 		@if (IncludeAdminMenu)
 		{
-			<AdminMenu CssClass="@SubMenuCssClass" />
+			<AdminMenu CssClass="@SubMenuCssClass" IncludePages="@Menu.Items.Count > 0" />
 		}
 	}
 </ul>
