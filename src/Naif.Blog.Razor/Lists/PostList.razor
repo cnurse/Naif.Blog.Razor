@@ -5,7 +5,7 @@
 @{
 	foreach (var post in Posts)
 	{
-		var editUrl = $"{BaseUrl}/{post.PostId}";
+		var editUrl = $"{BaseUrl}/{post.PostId}?returnUrl={ReturnUrl}";
 		
 		<section>
             @ExcerptFragment(new Tuple<Post, string>(post, editUrl))
@@ -47,4 +47,7 @@
 	
 	[Parameter]
 	public string BaseUrl { get; set; }
+	
+	[Parameter]
+	public string ReturnUrl { get; set; }
 }

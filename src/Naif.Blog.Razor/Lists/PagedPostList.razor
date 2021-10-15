@@ -8,7 +8,7 @@
     {
         foreach (var post in _posts)
         {
-            var editUrl = $"{BaseUrl}/{post.PostId}";
+            var editUrl = $"{BaseUrl}/{post.PostId}?returnUrl={ReturnUrl}";
 
             <section>
                 @ExcerptFragment(new Tuple<Post, string>(post, editUrl))
@@ -54,18 +54,6 @@
     public string BaseUrl { get; set; }
 
     [Parameter]
-    public string Filter { get; set; }
-
-    [Parameter]
-    public ListMode Mode { get; set; } = ListMode.List;
-
-    [Parameter]
-    public int PageCount { get; set; } = 10;
-    
-    [Parameter]
-    public int PageIndex { get; set; }
-
-    [Parameter]
     public RenderFragment<Tuple<Post, string>> ExcerptFragment { get; set; } = (t) =>
     {
         var post = t.Item1;
@@ -75,9 +63,9 @@
 
         return @<article class="excerpt">
                    <header>
-		               <div class="row">
+                       <div class="row">
                            <div class="col-lg-11">
-						       <h3><a href="@link">@post.Title</a></h3>
+                               <h3><a href="@link">@post.Title</a></h3>
                            </div>
                            <div class="col-lg-1">
                                <h3><a class="link" href="@editUrl"><i class="bi bi-pencil"></i></a></h3>
@@ -89,6 +77,21 @@
                    </section>
                </article>;
     };
+
+    [Parameter]
+    public string Filter { get; set; }
+
+    [Parameter]
+    public ListMode Mode { get; set; } = ListMode.List;
+
+    [Parameter]
+    public int PageCount { get; set; } = 10;
+    
+    [Parameter]
+    public int PageIndex { get; set; }
+    
+    [Parameter]
+    public string ReturnUrl { get; set; }
 
     [Parameter]
     public RenderFragment Separator { get; set; } = @<hr>;
