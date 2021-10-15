@@ -5,8 +5,10 @@
 @{
 	foreach (var post in Posts)
 	{
+		var editUrl = $"{BaseUrl}/{post.PostId}";
+		
 		<section>
-            @ExcerptFragment(new Tuple<Post, string>(post, BaseUrl))
+            @ExcerptFragment(new Tuple<Post, string>(post, editUrl))
             @Separator
 		</section>
 	}
@@ -18,11 +20,9 @@
 	public RenderFragment<Tuple<Post, string>> ExcerptFragment { get; set; } = (t) =>
 	{
 		var post = t.Item1;
-		var baseUrl = t.Item2;
+		var editUrl = t.Item2;
 		
 		var link = $"/post/{post.Slug}";
-		var editUrl = $"{baseUrl}/0/edit/{post.PostId}";
-
 
 		return @<article class="excerpt">
 			       <header>
@@ -46,5 +46,5 @@
 	public RenderFragment Separator { get; set; } = @<hr>;
 	
 	[Parameter]
-	public string BaseUrl { get; set; }	
+	public string BaseUrl { get; set; }
 }
