@@ -27,7 +27,7 @@
             </tr>
             </thead>
             <tbody>
-            @foreach(var post in Posts)
+            @foreach(var post in _posts)
             {
                 var editUrl = $"{BaseUrl}/{PageIndex}/edit/{post.PostId}";
                 <tr>
