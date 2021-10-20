@@ -73,20 +73,20 @@
         return @<article class="excerpt">
                    <header>
                        <div class="row">
-                           <div class="col-lg-11">
+                           <div class="col-lg-10">
                                <h3><a href="@link">@post.Title</a></h3>
                            </div>
-                           <div class="col-lg-1">
+                           <div class="col-lg-2">
                                <h3>
                                    <a class="link" href="@editUrl"><i class="bi bi-pencil"></i></a>
 		                           <a class="link" href="#" data-bs-toggle="modal" data-bs-target="#@modalId"><i class="bi bi-trash"></i></a>
-		                           <ConfirmModal Name="@modalId"
-		                                  Title="Delete Post?"
-		                                  Text="This action is irreversible. Are you sure you want to delete this post?"
-		                                  CloseText="Close"
-		                                  ConfirmText="Confirm Delete"
-		                                  Url="@deleteUrl"></ConfirmModal>
                                </h3>
+		                       <ConfirmModal Name="@modalId"
+		                              Title="Delete Post?"
+		                              Text="This action is irreversible. Are you sure you want to delete this post?"
+		                              CloseText="Close"
+		                              ConfirmText="Confirm Delete"
+		                              Url="@deleteUrl"></ConfirmModal>
                            </div>
                        </div>
                    </header>
