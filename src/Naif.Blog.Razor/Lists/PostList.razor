@@ -6,9 +6,10 @@
 	foreach (var post in Posts)
 	{
 		var editUrl = $"{EditUrl}/{post.PostId}?returnUrl={ReturnUrl}";
+		var deleteUrl = $"{DeleteUrl}/{post.PostId}?returnUrl={ReturnUrl}";
 		
 		<section>
-            @ExcerptFragment(new Tuple<Post, string>(post, editUrl))
+            @ExcerptFragment(new Tuple<Post, string, string>(post, editUrl, deleteUrl))
             @Separator
 		</section>
 	}
@@ -17,10 +18,12 @@
 @code {
 	
 	[Parameter]
-	public RenderFragment<Tuple<Post, string>> ExcerptFragment { get; set; } = (t) =>
+	public RenderFragment<Tuple<Post, string, string>> ExcerptFragment { get; set; } = (t) =>
 	{
 		var post = t.Item1;
 		var editUrl = t.Item2;
+		var deleteUrl = t.Item3;
+		var modalId = $"deleteConfirmModal-{post.PostId}";
 		
 		var link = $"/post/{post.Slug}";
 
@@ -31,7 +34,16 @@
 						       <h3><a href="@link">@post.Title</a></h3>
                            </div>
                            <div class="col-lg-1">
-                               <h3><a class="link" href="@editUrl"><i class="bi bi-pencil"></i></a></h3>
+	                           <h3>
+		                           <a class="link" href="@editUrl"><i class="bi bi-pencil"></i></a>
+		                           <a class="link" href="#" data-bs-toggle="modal" data-bs-target="#@modalId"><i class="bi bi-trash"></i></a>
+		                           <ConfirmModal Name="@modalId"
+		                                  Title="Delete Post?"
+		                                  Text="This action is irreversible. Are you sure you want to delete this post?"
+		                                  CloseText="Close"
+		                                  ConfirmText="Confirm Delete"
+		                                  Url="@deleteUrl"></ConfirmModal>
+	                           </h3>
                            </div>
                        </div>
 
@@ -45,6 +57,9 @@
 	[Parameter]
 	public RenderFragment Separator { get; set; } = @<hr>;
 	
+	[Parameter]
+	public string DeleteUrl { get; set; }
+
 	[Parameter]
 	public string EditUrl { get; set; }
 	
