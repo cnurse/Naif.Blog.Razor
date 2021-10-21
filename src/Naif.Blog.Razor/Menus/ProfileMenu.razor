@@ -6,7 +6,7 @@
 @inherits Naif.Blog.Razor.Framework.NaifComponentBase
 
 <ul class="@CssClass">
-    @if (_user.IsAuthenticated)
+    @if (_user != null && _user.IsAuthenticated)
     {
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">@_user.Name</a>
