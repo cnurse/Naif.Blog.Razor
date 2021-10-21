@@ -1,18 +1,20 @@
 @using System.Security.Claims
-@using Microsoft.AspNetCore.Components.Authorization
-@inject AuthenticationStateProvider AuthenticationStateProvider
+@using Naif.Core.Constants
+@using Naif.Core.Framework
+@using Naif.Core.Models
 
+@inherits Naif.Blog.Razor.Framework.NaifComponentBase
 
 <ul class="@CssClass">
-    @if (_user.Identity.IsAuthenticated)
+    @if (_user.IsAuthenticated)
     {
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">@_user.Identity.Name</a>
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">@_user.Name</a>
             <ul class="@SubMenuCssClass">
-                @if (IncludeProfilePicture && !String.IsNullOrEmpty(_imageUrl))
+                @if (IncludeProfilePicture && !String.IsNullOrEmpty(_user.ProfileImage))
                 {
                     <li>
-                        <img class="profileImage" src="@_imageUrl"/>
+                        <img class="profileImage" src="@_user.ProfileImage"/>
                     </li>
                     <li>
                         <hr class="dropdown-divider">
@@ -21,7 +23,7 @@
                 <li>
                     <a class="dropdown-item" href="#">Preferences</a>
                 </li>
-                @if (_user.IsInRole("Admin"))
+                @if (_user.IsInRole(RoleNames.Admin))
                 {
                     <li>
                         <a class="dropdown-item" href="/profile/claims">Claims (Admin only)</a>
@@ -56,11 +58,9 @@
     }
 </ul>
 
-
 @code {
-    private ClaimsPrincipal _user;
-    private string _imageUrl;
-
+    private User _user;
+    
     [Parameter]
     public string CssClass { get; set; }
     
@@ -78,8 +78,6 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        _user = authState.User;
-        _imageUrl = _user.Claims.FirstOrDefault(c => c.Type == "picture")?.Value;
+        _user = PageState.User;
     }
 }

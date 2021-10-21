@@ -2,11 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Components;
 using Naif.Blog.Models;
+using Naif.Blog.Razor.Framework;
 using Naif.Core.Models;
 
 namespace Naif.Blog.Razor
 {
-    public class MenuComponentBase : ComponentBase
+    public class MenuComponentBase : NaifComponentBase
     {
         [Parameter]
         public string CssClass { get; set; }
@@ -27,7 +28,7 @@ namespace Naif.Blog.Razor
         
         [Parameter]
         public string SubMenuCssClass { get; set; }
-
+        
         protected virtual MenuItem CreateMenuItem(Post post)
         {
             MenuItem item = null;

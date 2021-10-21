@@ -1,8 +1,10 @@
 @using System.Net.Security
+@using Naif.Blog.Razor.Framework
 @using Naif.Core.Models;
 
+@inherits Naif.Blog.Razor.Framework.NaifComponentBase
+
 @{
-	
 	void RenderSubMenu(MenuItem item, int level)
 	{
 		var cssClass = (level == 2) ? SubMenuCssClass : $"{SubMenuCssClass} dropdown-submenu";
@@ -65,15 +67,16 @@
 		}
 		@if (IncludeAdminMenu)
 		{
-			<AdminMenu CssClass="@SubMenuCssClass" IncludePages="@hasItems" />
+			<AdminMenu CssClass="@SubMenuCssClass" IncludePages="@hasItems" PageState="@PageState" />
 		}
 	}
 </ul>
 
 @code {
+
 	[Parameter]
 	public string CssClass { get; set; }
-	
+
 	[Parameter]
 	public bool IncludeAdminMenu { get; set; }
 

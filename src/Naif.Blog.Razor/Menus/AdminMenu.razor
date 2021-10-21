@@ -1,8 +1,12 @@
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
-@inject AuthenticationStateProvider AuthenticationStateProvider
+@using Naif.Core.Constants
+@using Naif.Core.Framework
+@using Naif.Core.Models
 
-@if (_user.IsInRole("Admin"))
+@inherits Naif.Blog.Razor.Framework.NaifComponentBase
+
+@if (_user.IsInRole(RoleNames.Admin))
 {
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Admin</a>
@@ -19,18 +23,16 @@
 
 @code {
     
-    private ClaimsPrincipal _user;
+    private User _user;
 
     [Parameter]
     public string CssClass { get; set; }
     
     [Parameter]
     public bool IncludePages { get; set; }
-
+    
     protected override async Task OnParametersSetAsync()
     {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        _user = authState.User;
+        _user = PageState.User;
     }
-    
 }

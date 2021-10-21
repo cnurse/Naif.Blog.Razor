@@ -1,5 +1,8 @@
 @using Naif.Blog.Models
 @using Naif.Blog.Services
+@using Naif.Core.Models
+
+@inherits Naif.Blog.Razor.Framework.NaifComponentBase
 
 <nav class="@CssClass" role="navigation">
     <div class="container">
@@ -13,14 +16,16 @@
                         CssClass="@MenuCssClass" 
                         SubMenuCssClass="@SubMenuCssClass" 
                         Depth="@Depth" 
-                        IncludeParent="@IncludeParent" />
+                        IncludeParent="@IncludeParent"
+                        PageState="@PageState"/>
         </div>
         <div class="collapse navbar-collapse justify-content-end" id="profileMenu">
             <ProfileMenu IncludeSignIn="@IncludeSignIn" 
                          IncludeSignUp="IncludeSignUp" 
                          IncludeProfilePicture="@IncludeProfilePicture" 
                          CssClass="@MenuCssClass" 
-                         SubMenuCssClass="@SubMenuCssClass" />
+                         SubMenuCssClass="@SubMenuCssClass"
+                         PageState="@PageState"/>
         </div>
     </div>
 </nav>
