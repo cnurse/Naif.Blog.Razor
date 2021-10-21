@@ -78,6 +78,9 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        _user = PageState.User;
+        if (PageState != null)
+        {
+            _user = PageState.User;
+        }
     }
 }
