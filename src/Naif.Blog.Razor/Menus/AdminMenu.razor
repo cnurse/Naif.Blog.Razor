@@ -6,7 +6,7 @@
 
 @inherits Naif.Blog.Razor.Framework.NaifComponentBase
 
-@if (_user.IsInRole(RoleNames.Admin))
+@if (_user != null && _user.IsAuthenticated)
 {
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Admin</a>
