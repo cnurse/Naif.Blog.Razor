@@ -5,13 +5,20 @@
 
 @inherits Naif.Blog.Razor.Framework.NaifComponentBase
 
-<article class="post">
+@{
+    var _cssClass = (Post.PostType == PostType.Post) ? "post" : "page";
+    var _confirmText =$"This action is irreversible. Are you sure you want to delete this {((Post.PostType == PostType.Post) ? "post" : "page")}?";
+    var _DeleteText = $"Delete {((Post.PostType == PostType.Post) ? "Post" : "Page")}";
+}
+
+
+<article class="@_cssClass">
     <header>
         <div class="row">
             @if (_user.IsInRole(RoleNames.Admin))
             {
                 <div class="col-lg-10">
-                    <h2>@Post.Title</h2>
+                    <h1>@Post.Title</h1>
                 </div>
                 <div class="col-lg-2">
                     <h2>
@@ -19,8 +26,8 @@
                         <a class="link" href="#" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal"><i class="bi bi-trash"></i></a>
                     </h2>
                     <ConfirmModal Name="deleteConfirmModal"
-                                  Title="Delete Post?"
-                                  Text="This action is irreversible. Are you sure you want to delete this post?"
+                                  Title="@_DeleteText"
+                                  Text="@_confirmText"
                                   CloseText="Close"
                                   ConfirmText="Confirm Delete"
                                   Url="@DeleteUrl"></ConfirmModal>
@@ -29,27 +36,36 @@
             else
             {
                 <div class="col-lg-12">
-                    <h2>@Post.Title</h2>
+                    <h1>@Post.Title</h1>
                 </div>
             }
         </div>
-        <div>
-            Category:
-            @foreach (var category in Post.Categories)
+        @{
+            if (!string.IsNullOrEmpty(Post.SubTitle))
             {
-                var categoryUrl = $"{CategoryUrl}/{category.Name}";
-                <span><a href="@categoryUrl">@category.Name</a></span>
+                <h2>@Post.SubTitle</h2>
             }
-        </div>
-        <div>
-            Tags:
-            @foreach (var tag in Post.Tags)
-            {
-                var tagUrl = $"{TagUrl}/{tag.Name}";
-                <span><a href="@tagUrl">@tag.Name</a></span>
-            }
-        </div>
-        <div>Last Modified: @Post.LastModified.ToString("MMM d yyyy")</div>
+        }
+        @if(Post.PostType == PostType.Post)
+        {
+            <div>
+                Category:
+                @foreach (var category in Post.Categories)
+                {
+                    var categoryUrl = $"{CategoryUrl}/{category.Name}";
+                    <span><a href="@categoryUrl">@category.Name</a></span>
+                }
+            </div>
+            <div>
+                Tags:
+                @foreach (var tag in Post.Tags)
+                {
+                    var tagUrl = $"{TagUrl}/{tag.Name}";
+                    <span><a href="@tagUrl">@tag.Name</a></span>
+                }
+            </div>
+            <div>Last Modified: @Post.LastModified.ToString("MMM d yyyy")</div>
+        }
     </header>
     <section>
         @((MarkupString)Post.Content)
