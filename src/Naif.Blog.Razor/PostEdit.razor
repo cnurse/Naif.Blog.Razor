@@ -1,5 +1,6 @@
 @using Microsoft.AspNetCore.Mvc.Rendering
 @using Naif.Blog.Models
+@using Naif.Blog.ViewModels
 @using Naif.Core.Models
 
 <form class="g-3" action="@ActionUrl" method="post">
@@ -234,7 +235,7 @@
     public List<SelectListItem> Pages { get; set; }
     
     [Parameter]
-    public Post Post { get; set; }
+    public PostViewModel Post { get; set; }
     
     [Parameter]
     public IList<Message> Messages { get; set; }
