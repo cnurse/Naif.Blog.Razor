@@ -27,42 +27,38 @@
         }
     }
 
-    <div class="mb-3 row">
-        <label class="col-sm-2 col-form-label">
-            Post Id
-            <div class="col-sm-10">
-                <input name="PostId" value="@Post.PostId" class="form-control-plaintext" readonly />
-            </div>
-        </label>
-    </div>
+    <label class="mb-3 row">
+        <div  class="col-sm-2 col-form-label">Post Id</div>
+        <div class="col-sm-10">
+            <input name="PostId" value="@Post.PostId" class="form-control-plaintext" readonly />
+        </div>
+    </label>
     
     @if (!isPost)
     {
-        <div class="mb-3 row">
-            <label class="col-sm-2 col-form-label">
-                Parent Post Id
-                <div class="col-sm-10">
-                    <select name="ParentPostId" class="form-control">
-                        @foreach (var parentPage in Pages)
+        <label class="mb-3 row">
+            <div  class="col-sm-2 col-form-label">Parent Post Id</div>
+            <div class="col-sm-10">
+                <select name="ParentPostId" class="form-control">
+                    @foreach (var parentPage in Pages)
+                    {
+                        if (parentPage.Value == Post.ParentPostId)
                         {
-                            if (parentPage.Value == Post.ParentPostId)
-                            {
-                                <option selected value="@parentPage.Value">@parentPage.Text</option>
-                            }
-                            else
-                            {
-                                <option value="@parentPage.Value">@parentPage.Text</option>
-                            }
+                            <option selected value="@parentPage.Value">@parentPage.Text</option>
                         }
-                    </select>
-                </div>
-            </label>
-        </div>
+                        else
+                        {
+                            <option value="@parentPage.Value">@parentPage.Text</option>
+                        }
+                    }
+                </select>
+            </div>
+        </label>
     }
 
     <div class="mb-3 row">
-        <label class="col-sm-2 col-form-label">
-            Post Type
+        <label class="mb-3 row">
+            <div  class="col-sm-2 col-form-label">Post Type</div>
             <div class="col-sm-3">
                 <select name="PostType" class="form-select" @onchange="PostTypeChanged">
                     @foreach (PostType type in Enum.GetValues(typeof(PostType)))
@@ -83,7 +79,7 @@
         @if (!isPost)
         {
             <div class="col-sm-3"></div>
-            <label>
+            <label class="mb-3 row">
                 <div  class="col-sm-2 col-form-label">Page Order</div>
                 <div class="col-sm-2">
                     <input name="PageOrder" value="@Post.PageOrder" class="form-control" />
@@ -94,35 +90,29 @@
     
     @if (showPostTypeDetail)
     {
-        <div class="mb-3 row">
-            <label>
-                <div  class="col-sm-2 col-form-label">@Post.PostType</div>
-                <div class="col-sm-10">
-                    <input name="PostTypeDetail" value="@Post.PostTypeDetail" class="form-control" />
-                </div>
-            </label>
-        </div>
+        <label class="mb-3 row">
+            <div  class="col-sm-2 col-form-label">@Post.PostType</div>
+            <div class="col-sm-10">
+                <input name="PostTypeDetail" value="@Post.PostTypeDetail" class="form-control" />
+            </div>
+        </label>
     }
 
     @if (showDetail)
     {
-        <div class="mb-3 row">
-            <label>
-                <div  class="col-sm-2 col-form-label">Title</div>
-                <div class="col-sm-10">
-                    <input value="@Post.Title" class="form-control" />
-                </div>
-            </label>
-        </div>
+        <label class="mb-3 row">
+            <div  class="col-sm-2 col-form-label">Title</div>
+            <div class="col-sm-10">
+                <input value="@Post.Title" class="form-control" />
+            </div>
+        </label>
 
-        <div class="mb-3 row">
-            <label>
-                <div  class="col-sm-2 col-form-label">SubTitle</div>
-                <div class="col-sm-10">
-                    <input value="@Post.SubTitle" class="form-control"/>
-                </div>
-            </label>
-        </div>
+        <label class="mb-3 row">
+            <div  class="col-sm-2 col-form-label">SubTitle</div>
+            <div class="col-sm-10">
+                <input value="@Post.SubTitle" class="form-control"/>
+            </div>
+        </label>
         
         <div class="mb-3 row">
             <label>
@@ -139,41 +129,33 @@
             </label>
         </div>
 
-        <div class="mb-3 row">
-            <label>
-                <div  class="col-sm-2 col-form-label">Excerpt</div>
-                <div class="col-sm-10">
-                    <textarea value="@Post.Excerpt" class="form-control" rows="3"></textarea>
-                </div>
-            </label>
-        </div>
+        <label class="mb-3 row">
+            <div  class="col-sm-2 col-form-label">Excerpt</div>
+            <div class="col-sm-10">
+                <textarea value="@Post.Excerpt" class="form-control" rows="3"></textarea>
+            </div>
+        </label>
 
-        <div class="mb-3 row">
-            <label>
-                <div  class="col-sm-2 col-form-label">Content</div>
-                <div class="col-sm-10">
-                    <textarea value="@Post.Content" class="form-control" rows="5"></textarea>
-                </div>
-            </label>
-        </div>
+        <label class="mb-3 row">
+            <div  class="col-sm-2 col-form-label">Content</div>
+            <div class="col-sm-10">
+                <textarea value="@Post.Content" class="form-control" rows="5"></textarea>
+            </div>
+        </label>
         
-        <div class="mb-3 row">
-            <label>
-                <div  class="col-sm-2 col-form-label">Categories</div>
-                <div class="col-sm-10">
-                    <input value="@Post.Categories" class="form-control" />
-                </div>
-            </label>
-        </div>
+        <label class="mb-3 row">
+            <div  class="col-sm-2 col-form-label">Categories</div>
+            <div class="col-sm-10">
+                <input value="@Post.Categories" class="form-control" />
+            </div>
+        </label>
 
-        <div class="mb-3 row">
-            <label>
-                <div  class="col-sm-2 col-form-label">Tags</div>
-                <div class="col-sm-10">
-                    <input value="@Post.Tags" class="form-control" />
-                </div>
-            </label>
-        </div>
+        <label class="mb-3 row">
+            <div  class="col-sm-2 col-form-label">Tags</div>
+            <div class="col-sm-10">
+                <input value="@Post.Tags" class="form-control" />
+            </div>
+        </label>
     }
 
     <div class="mb-3 row form-switch">
