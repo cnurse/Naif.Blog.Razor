@@ -7,7 +7,7 @@
 <nav class="@CssClass" role="navigation">
     <div class="container">
         <a class="navbar-brand" href="@homeUrl">@Blog.Title</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarMenu">
@@ -18,6 +18,7 @@
                         Depth="@Depth" 
                         IncludeParent="@IncludeParent"
                         PageState="@PageState"/>
+
         </div>
         <div class="collapse navbar-collapse justify-content-end" id="profileMenu">
             <ProfileMenu IncludeSignIn="@IncludeSignIn" 
