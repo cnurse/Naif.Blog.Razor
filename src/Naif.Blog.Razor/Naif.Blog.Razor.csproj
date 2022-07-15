@@ -4,14 +4,15 @@
         <TargetFramework>net6.0</TargetFramework>
         <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
         <ProductVersion>2.0.2</ProductVersion>
-        <FileVersion>2.0.2.2</FileVersion>
+        <FileVersion>2.0.2.3</FileVersion>
         <NuspecFile>$(MSBuildProjectName).nuspec</NuspecFile>
         <LangVersion>latestmajor</LangVersion>
+        <RepositoryUrl>https://github.com/cnurse/Naif.Blog.Razor</RepositoryUrl>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Naif.Blog.Core" Version="3.2.0-beta-1" />
-      <PackageReference Include="Naif.Core" Version="3.3.1" />
+      <PackageReference Include="Naif.Blog.Core" Version="3.2.0-beta-2" />
+      <PackageReference Include="Naif.Core" Version="3.3.2-alpha-1" />
     </ItemGroup>
 
 </Project>
