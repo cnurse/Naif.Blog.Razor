@@ -1,0 +1,48 @@
+@using Naif.Core.Models
+
+@inherits MenuComponentBase
+
+<section class="articleList">
+    @if (IncludeHeading)
+    {
+        <h2>@HeadingText</h2>
+    }
+    <MenuBar Menu="@_menu" CssClass="@CssClass" PageState="@PageState"></MenuBar>
+</section>
+
+@code {
+
+    private Menu _menu;
+
+    [Parameter]
+    public bool IncludeLastUpdated { get; set; } = false;
+
+    [Parameter]
+    public string LastUpdatedText { get; set; } = "<small><em> - updated</em></small>";
+
+    [Parameter]
+    public string NewText { get; set; } = "<small><em> - new</em></small>";
+
+    protected override void OnParametersSet()
+    {
+        _menu = new Menu
+        {
+            IsActiveCssClass = "active",
+            Items = new List<MenuItem>()
+        };
+
+        foreach (var post in Posts)
+        {
+            var menuItem = CreateMenuItem(post);
+            if (IncludeLastUpdated)
+            {
+                if (post.LastModified > post.PubDate.AddDays(1))
+                {
+                    menuItem.Text += LastUpdatedText;
+                }
+            }
+
+            _menu.Items.Add(menuItem);
+        }
+    }
+}

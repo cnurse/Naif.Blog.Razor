@@ -16,7 +16,13 @@ namespace Naif.Blog.Razor
         public int Depth { get; set; } = 1;
         
         [Parameter]
-        public bool IncludeParent { get; set; }
+        public string HeadingText { get; set; }
+
+        [Parameter] 
+        public bool IncludeHeading { get; set; } = true;
+
+        [Parameter] 
+        public bool IncludeParent { get; set; } = false;
         
         protected Menu Menu { get; set; }
 

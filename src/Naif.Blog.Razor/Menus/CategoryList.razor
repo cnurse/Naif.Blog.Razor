@@ -4,7 +4,10 @@
 @inherits Naif.Blog.Razor.MenuComponentBase
 
 <section class="categoryList">
-    <h2>Categories</h2>
+    @if (IncludeHeading)
+    {
+        <h2>@HeadingText</h2>
+    }
     <MenuBar Menu="@_menu" CssClass="@CssClass" PageState="@PageState"></MenuBar>
 </section>
 

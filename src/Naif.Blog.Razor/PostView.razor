@@ -93,6 +93,9 @@
     
     protected override async Task OnParametersSetAsync()
     {
-        _user = PageState.User;
+        await Task.Run(() =>
+        {
+            _user = PageState.User;
+        });
     }
 }
