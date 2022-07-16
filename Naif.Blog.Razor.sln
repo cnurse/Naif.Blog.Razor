@@ -8,6 +8,7 @@ ProjectSection(SolutionItems) = preProject
 	azure-pipelines.yml = azure-pipelines.yml
 	README.md = README.md
 	LICENSE = LICENSE
+	.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 EndProjectSection
 EndProject
 Global
