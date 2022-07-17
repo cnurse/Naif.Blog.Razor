@@ -15,7 +15,7 @@
 <article class="@_cssClass">
     <header>
         <div class="row">
-            @if (_user.IsInRole(RoleNames.Admin))
+            @if (_user != null && _user.IsInRole(RoleNames.Admin))
             {
                 <div class="col-lg-10">
                     <h1>@Post.Title</h1>
