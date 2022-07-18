@@ -6,16 +6,19 @@
 @{
     void RenderParentBreadcrumb(Post post)
     {
-        var parentPost = Posts.Single(p => p.PostId == post.ParentPostId);
+        if (Posts != null)
+        {
+            var parentPost = Posts.Single(p => p.PostId == post.ParentPostId);
         
-        @if (!String.IsNullOrEmpty(parentPost.ParentPostId))
-        {
-            RenderParentBreadcrumb(parentPost);
-            RenderBreadcrumb(parentPost, true);
-        }
-        else
-        {
-            RenderBreadcrumb(parentPost, false);
+            @if (!String.IsNullOrEmpty(parentPost.ParentPostId))
+            {
+                RenderParentBreadcrumb(parentPost);
+                RenderBreadcrumb(parentPost, true);
+            }
+            else
+            {
+                RenderBreadcrumb(parentPost, false);
+            }
         }
     }
 
