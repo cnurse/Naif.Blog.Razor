@@ -24,6 +24,7 @@ namespace Naif.Blog.Razor
         [Parameter] 
         public bool IncludeParent { get; set; } = false;
         
+        [Parameter]
         protected Menu Menu { get; set; }
 
         [Parameter]
