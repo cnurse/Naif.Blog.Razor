@@ -10,44 +10,32 @@
         {
             var parentPost = Posts.Single(p => p.PostId == post.ParentPostId);
         
-            @if (!String.IsNullOrEmpty(parentPost.ParentPostId))
+            if (!String.IsNullOrEmpty(parentPost.ParentPostId))
             {
                 RenderParentBreadcrumb(parentPost);
-                RenderBreadcrumb(parentPost, true);
             }
-            else
-            {
-                RenderBreadcrumb(parentPost, false);
-            }
+            RenderBreadcrumb(parentPost);            
         }
     }
 
-    void RenderBreadcrumb(Post post, bool includeSeparator)
+    void RenderBreadcrumb(Post post)
     {
         var menuItem = CreateMenuItem(post);
-        if (includeSeparator)
-        {
-            <span>@Separator</span>
-        }
-        <li class="nav-item">
-			<a class="nav-link" href="@GetMenuLink(menuItem)">@((MarkupString)menuItem.Text)</a>
-        </li>
+        <li class="breadcrumb-item"><a href="@GetMenuLink(menuItem)">@((MarkupString)menuItem.Text)</a></li>
     }
 }
 
-<section class="breadcrumb">
-    @if (!String.IsNullOrEmpty(Post.ParentPostId))
-    {
-        RenderParentBreadcrumb(Post);
-        RenderBreadcrumb(Post, true);
-    }
-    else
-    {
-        RenderBreadcrumb(Post, false);
-    }
-</section>
-
-
+<nav style="--bs-breadcrumb-divider: '@Separator';">
+    <ol class="breadcrumb">
+        @{
+            if (!String.IsNullOrEmpty(Post.ParentPostId))
+            {
+                RenderParentBreadcrumb(Post);
+            }
+            RenderBreadcrumb(Post);            
+        }
+    </ol>
+</nav>
 
 @code {
     
