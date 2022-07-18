@@ -1,0 +1,64 @@
+@using Naif.Blog.Models
+@using Naif.Blog.Services
+
+@inherits Naif.Blog.Razor.MenuComponentBase
+
+@{
+    void RenderParentBreadcrumb(Post post)
+    {
+        var parentPost = Posts.Single(p => p.PostId == post.ParentPostId);
+        
+        @if (!String.IsNullOrEmpty(parentPost.ParentPostId))
+        {
+            RenderParentBreadcrumb(parentPost);
+            RenderBreadcrumb(parentPost, true);
+        }
+        else
+        {
+            RenderBreadcrumb(parentPost, false);
+        }
+    }
+
+    void RenderBreadcrumb(Post post, bool includeSeparator)
+    {
+        var menuItem = CreateMenuItem(post);
+        if (includeSeparator)
+        {
+            <span>@Separator</span>
+        }
+        <li class="nav-item">
+			<a class="nav-link" href="@GetMenuLink(menuItem)">@((MarkupString)menuItem.Text)</a>
+        </li>
+    }
+}
+
+<section class="breadcrumb">
+    @if (!String.IsNullOrEmpty(Post.ParentPostId))
+    {
+        RenderParentBreadcrumb(Post);
+        RenderBreadcrumb(Post, true);
+    }
+    else
+    {
+        RenderBreadcrumb(Post, false);
+    }
+</section>
+
+
+
+@code {
+    
+    [Parameter]
+    public string Separator { get; set; }
+    
+    [Parameter]
+    public Post Post { get; set; }
+    
+    [Parameter]
+    public IList<Post> Posts { get; set; }
+    
+    protected override void OnParametersSet()
+    {
+        
+    }
+}

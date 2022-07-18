@@ -2,7 +2,7 @@
 @using Naif.Blog.Razor.Framework
 @using Naif.Core.Models;
 
-@inherits Naif.Blog.Razor.Framework.NaifComponentBase
+@inherits Naif.Blog.Razor.MenuComponentBase
 
 @{
 	void RenderSubMenu(MenuItem item, int level)
@@ -86,23 +86,5 @@
 	[Parameter]
 	public string SubMenuCssClass { get; set; }
 
-	private string GetMenuLink(MenuItem menuItem)
-	{
-		string href;
-		if (string.IsNullOrEmpty(menuItem.Link))
-		{
-			href = $"/{menuItem.Controller}/";
-			if (!string.IsNullOrEmpty(menuItem.Action))
-			{
-				href += $"{menuItem.Action}/";
-			}
-		}
-		else
-		{
-			href = menuItem.Link;
-		}
-
-		return href;
-	}
 
 }

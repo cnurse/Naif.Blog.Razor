@@ -94,7 +94,26 @@ namespace Naif.Blog.Razor
 
             return item;
         }
+        
+        protected string GetMenuLink(MenuItem menuItem)
+        {
+            string href;
+            if (string.IsNullOrEmpty(menuItem.Link))
+            {
+                href = $"/{menuItem.Controller}/";
+                if (!string.IsNullOrEmpty(menuItem.Action))
+                {
+                    href += $"{menuItem.Action}/";
+                }
+            }
+            else
+            {
+                href = menuItem.Link;
+            }
 
+            return href;
+        }
+        
         protected override void OnParametersSet()
         {
             Menu = new Menu
