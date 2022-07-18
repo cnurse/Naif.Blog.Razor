@@ -2,7 +2,7 @@
 @using Naif.Blog.Razor.Framework
 @using Naif.Core.Models;
 
-@inherits Naif.Blog.Razor.MenuComponentBase
+@inherits Naif.Blog.Razor.Framework.NaifComponentBase
 
 @{
 	void RenderSubMenu(MenuItem item, int level)
@@ -73,7 +73,18 @@
 </ul>
 
 @code {
+	
+	[Parameter]
+	public string CssClass { get; set; }
 
 	[Parameter]
 	public bool IncludeAdminMenu { get; set; }
+	
+	[Parameter]
+	public Menu Menu { get; set; }
+
+	[Parameter]
+	public string SubMenuCssClass { get; set; }
+
+	
 }

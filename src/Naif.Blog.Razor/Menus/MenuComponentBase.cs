@@ -24,8 +24,7 @@ namespace Naif.Blog.Razor
         [Parameter] 
         public bool IncludeParent { get; set; } = false;
         
-        [Parameter]
-        public Menu Menu { get; set; }
+        protected Menu Menu { get; set; }
 
         [Parameter]
         public string PostId { get; set; }
@@ -96,26 +95,7 @@ namespace Naif.Blog.Razor
             return item;
         }
         
-        protected string GetMenuLink(MenuItem menuItem)
-        {
-            string href;
-            if (string.IsNullOrEmpty(menuItem.Link))
-            {
-                href = $"/{menuItem.Controller}/";
-                if (!string.IsNullOrEmpty(menuItem.Action))
-                {
-                    href += $"{menuItem.Action}/";
-                }
-            }
-            else
-            {
-                href = menuItem.Link;
-            }
-
-            return href;
-        }
-        
-        protected override void OnParametersSet()
+         protected override void OnParametersSet()
         {
             Menu = new Menu
             {
