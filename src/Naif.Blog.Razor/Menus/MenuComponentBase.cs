@@ -88,6 +88,14 @@ namespace Naif.Blog.Razor
                         Text = post.Title
                     };
                     break;
+                case PostType.Spacer:
+                    item = new MenuItem
+                    {
+                        Link = "#",
+                        IsActive = false,
+                        Text = post.Title
+                    };
+                    break;
             }
 
             item.Items = new List<MenuItem>();

@@ -21,7 +21,14 @@
     void RenderBreadcrumb(Post post)
     {
         var menuItem = CreateMenuItem(post);
-        <li class="breadcrumb-item"><a href="@GetMenuLink(menuItem)">@((MarkupString)menuItem.Text)</a></li>
+        if (post.PostType == PostType.Spacer)
+        {
+            <li class="breadcrumb-item">@((MarkupString)menuItem.Text)</li>
+        }
+        else
+        {
+            <li class="breadcrumb-item"><a href="@GetMenuLink(menuItem)">@((MarkupString)menuItem.Text)</a></li>
+        }
     }
 }
 
