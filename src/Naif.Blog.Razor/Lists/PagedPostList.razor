@@ -107,6 +107,9 @@
                    <section>
                        @((MarkupString) post.Excerpt)
                    </section>
+                   <footer>
+                        <div><em>Created: @post.PubDate.ToString("MMM d yyyy"), Last Modified: @post.LastModified.ToString("MMM d yyyy")</em></div>
+                   </footer>
                </article>;
     };
 
